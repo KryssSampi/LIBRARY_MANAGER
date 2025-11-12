@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Modules.BookCatalog.Views.HomeView.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Views.HomeView"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             xmlns:localitems="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items" 
+             xmlns:localItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items.MainView"
+             mc:Ignorable="d" 
+             Background="Transparent"
+             d:DesignHeight="700" d:DesignWidth="1200"
+             x:Name="root">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Modules/BookCatalog/Views/HomeView/style/StyleManager.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Overlay gradient subtil -->
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#F0FFFFFF" Offset="0"/>
+                    <GradientStop Color="#E0F5F5F5" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <localItems:Header  
+            Grid.Row="0"
+                     Background="White"
+                     HorizontalContentAlignment="Center"
+            LogoPath="/UI/Common/Assets/BookCatalog_Images/Noctua_Blue.png"
+            SideImagePath="/UI/Common/Assets/BookCatalog_Images/Noctua_On_Book.png"
+               Title="Gestionnaire De Bibliothèque "
+               Subtitle="Explorez notre collection"/>
+        <Separator Width="2000" Background="{StaticResource DarkBlue}" Grid.Row="1" Height="2"/>
+        <Grid Margin="40,30" Grid.Row="2">
+            <Grid.Background>
+            <ImageBrush x:Name="Image_Background"
+ 
+                       Stretch="UniformToFill"
+                       Opacity="0.30"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <localitems:SearchBar Grid.Row="1" 
+                             VerticalAlignment="Center"
+                      />
+        <TextBlock Text="Explorer par Catégorie" 
+                  FontSize="28" 
+                  Grid.Row="2"
+                  FontWeight="SemiBold"
+                  Foreground="#1565C0"
+                  Margin="0,-20,0,0"/>
+
+            <ScrollViewer Grid.Row="3" Style="{StaticResource ModernScrollViewer}">
+                <localitems:CategoryGrid x:Name="CategoriesGrid" 
+                                         ShowOnlyWithBooks="False"
+                               OnCategorySelected="OnCategorySelected"/>
+        </ScrollViewer>
+    </Grid>
+    </Grid>
+</UserControl>

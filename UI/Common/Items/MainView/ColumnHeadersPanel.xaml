@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Common.Items.MainView.ColumnHeadersPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items"
+             mc:Ignorable="d"
+             x:Name="root">
+    <Border Background="{Binding Background, ElementName=root}"
+            Padding="110,5"
+            BorderBrush="#E0E0E0"
+            
+            BorderThickness="0,0,0,1">
+        <UniformGrid x:Name="ColumnHeaderGrid_"
+             Rows="1"
+                    
+                     Columns="{Binding Headers.Count, ElementName=root}">
+            
+        </UniformGrid>
+    </Border>
+</UserControl>

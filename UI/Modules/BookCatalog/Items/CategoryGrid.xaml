@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items.CategoryGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items">
+
+    <StackPanel>
+
+        <UniformGrid x:Name="CategoriesContainer" 
+                    Columns="4" 
+                    Rows="2"/>
+    </StackPanel>
+</UserControl>

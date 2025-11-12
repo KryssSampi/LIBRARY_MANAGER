@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Modules.ReturnModule.ReturnSpace"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.ReturnModule" xmlns:MainviewItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items.MainView" xmlns:GlobalItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items" xmlns:vm="clr-namespace:LIBBRARY_MANAGER.UI.Modules.ReturnModule.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1200"    >
+    <UserControl.Resources>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:ReturnSpaceVm />
+    </UserControl.DataContext>
+    <Grid>
+    <Grid.ColumnDefinitions>
+        <!-- Définition des colonnes -->
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <!-- Contenu principal -->
+    </Grid.ColumnDefinitions>
+
+    <!-- Définition des lignes -->
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- En-tête -->
+    <!-- Header -->
+    <MainviewItems:Header  
+            Grid.Row="0"
+            Grid.ColumnSpan="4"
+            Background="White"
+            HorizontalContentAlignment="Center"
+            LogoPath="/UI/Common/Assets/BookCatalog_Images/Noctua_Blue.png"
+            SideImagePath="/UI/Common/Assets/BookCatalog_Images/Noctua_On_Book.png"
+            Title="Gestionnaire de Bibliothèque"
+            Subtitle="Explorer Notre Collection"/>
+    <Separator Width="2000" Grid.Column="2" Background="{StaticResource DarkBlue}" Grid.Row="1" Height="2" Margin="0,0,-5,0"/>
+    <!-- Image de la page -->
+    <Border Grid.Row="1" Grid.Column="0" Grid.RowSpan="8" BorderBrush="#0370C3" BorderThickness="1,1,1,1">
+        <Image x:Name="Image_" Source="./Assets/image-retour.png" Stretch="Fill"
+HorizontalAlignment="Stretch"
+VerticalAlignment="Stretch"/>
+
+    </Border>
+
+    <!-- Texte de l'emprunt -->
+    <Label Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Content="Effectuer les Retours Ici!" HorizontalContentAlignment="Center"
+          VerticalAlignment="Top" FontSize="28"
+               Margin="50"
+          FontWeight="Bold"
+          FontFamily="Inter"
+          Foreground="#025492"/>
+
+    <!-- Section pour la saisie des données -->
+    <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="8" 
+                  VerticalAlignment="Center" >
+
+        <StackPanel>
+            <!-- Image de l'emprunt -->
+            <GlobalItems:IconButton IconKind="BookArrowLeftOutline" IconSize="60" IconColor="{StaticResource DarkBlue}" Height="100" Width="100" ButtonHeight="100" ButtonWidth="100" Shape="Circle" BorderThickness="4" BorderBrush="{StaticResource PrimaryBlue}" IsEnabled="False"  CornerRadius="500"    Margin="0,1"/>
+
+            <!-- Texte pour indiquer quoi faire -->
+            <TextBlock Grid.Row="1" 
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#025492"
+                   FontSize="25"
+                           FontWeight="SemiBold"
+                   FontFamily="Inter"
+                   Text="Entrer les identifiants"/>
+        </StackPanel>
+
+        <!-- Section pour la saisie -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Vertical" 
+                    HorizontalAlignment="Center">
+            <!-- Message d'erreur -->
+            <TextBlock Grid.Row="8" 
+        Grid.ColumnSpan="2"
+        Text="{Binding ErrorMessage}"
+        Foreground="Red"
+        TextAlignment="Center"
+        FontWeight="Bold" Visibility="{Binding ErrorMessage , Converter={StaticResource StringToVisibilityConverter}}"/>
+
+            <!-- ISBN du Livre -->
+            <TextBlock TextAlignment="Left"
+                       VerticalAlignment="Center"
+                       Foreground="#255F7E"
+                       FontFamily="Inter"
+                       FontSize="15"
+                       Text="ISBN du Livre"/>
+
+            <TextBox MinWidth="350"
+                     Text="{Binding IsbnLivre, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0,0,0,0"
+                     Padding="5"
+                     VerticalContentAlignment="Center"/>
+
+            <!-- ISBN de l'abonné -->
+            <TextBlock TextAlignment="Left"
+                       VerticalAlignment="Center"
+                       Foreground="#255F7E"
+                       FontFamily="Inter"
+                       FontSize="15"
+                       Text="ID de l'abonné"/>
+
+                <TextBox Text="{Binding IdMembre, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="350"
+                     Margin="0"
+                     Padding="5"
+                     VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+        <!-- Boutons -->
+        <StackPanel Grid.Row="3" 
+                    Orientation="Vertical" 
+                    HorizontalAlignment="Center"
+                    Margin="0,10,0,0">
+
+            <Button Content="Confirmer"
+                     Command="{Binding ConfirmationCommand}"
+                    MinWidth="350"
+                    Height="40"
+                    Style="{StaticResource ActionBouton}"
+                    Margin="0,0,0,10"
+                    Background="#0370C3"
+                              Tag="#0487F7"
+  Uid="#025C9D"
+                    Foreground="White"
+                    FontSize="16"
+                    FontFamily="Inter"/>
+
+                <Button Content="Accueil"
+                     Command="{Binding GetHomeCommad}"
+                    MinWidth="350"
+                    MinHeight="40"
+                    Style="{StaticResource ActionBouton}"
+                            
+                    Background="#0370C3"
+                            Tag="#0487F7"
+                            Uid="#025C9D"
+                    Foreground="White"
+                    FontSize="16"
+                    FontFamily="Inter"/>
+            </StackPanel>
+
+
+    </StackPanel>
+    </Grid>
+</UserControl>

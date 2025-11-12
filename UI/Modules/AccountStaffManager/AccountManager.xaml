@@ -1,0 +1,604 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.AccountManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.AccountStaffManager"
+             xmlns:GlobalItem="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items" 
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.Items"
+             mc:Ignorable="d" 
+             MinWidth="1200"
+             d:DesignHeight="700" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource DarkBlue}"/>
+            <Setter Property="Margin" Value="0,15,0,10"/>
+        </Style>
+
+        <Style x:Key="InfoLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{StaticResource LightBlue}"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+        </Style>
+
+        <Style x:Key="InfoValue" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#F8F9FA">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.65*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== COLONNE GAUCHE : Avatar et Info Statiques ===== -->
+        <Grid Grid.Column="0" Margin="30,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- AvatarEditor Component -->
+            <items:AvatarEditor 
+                x:Name="AvatarEditor"
+                Grid.Row="0"
+                AvatarSource="{Binding AvatarSource}"
+                AvatarSize="180"
+                BorderBrush="{StaticResource DarkBlue}"
+                DefaultBackground="{StaticResource PrimaryBlue}"
+                DefaultIconSize="90"
+                EditButtonSize="45"
+                EditButtonContainer="55"
+                EditIconSize="22"
+                HeaderBackground="{StaticResource PrimaryBlue}"
+                FooterBackground="{StaticResource PrimaryBlue}"
+                AccentBrush="{StaticResource LightBlue}"
+                Margin="0,0,0,20"
+                HorizontalAlignment="Center"/>
+
+            <!-- Username et Ref -->
+            <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                <TextBlock Text="{Binding Name}" 
+                          FontSize="24" 
+                          TextAlignment="Center" 
+                          Foreground="{StaticResource DarkBlue}"
+                          FontWeight="Bold"
+                          TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding RefStaff, StringFormat='@{0}'}" 
+                          FontSize="16" 
+                          TextAlignment="Center" 
+                          Foreground="{StaticResource LightBlue}"
+                          Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <!-- Informations statiques -->
+            <Border Grid.Row="2" 
+                    Background="White" 
+                    CornerRadius="15" 
+                    Padding="15"
+                    MaxHeight="280"
+                    BorderBrush="{StaticResource LightBlue}"
+                    BorderThickness="2">
+                <Border.Effect>
+                    <DropShadowEffect Color="#204E7A" Opacity="0.1" 
+                                    BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <TextBlock Text="Informations Professionnelles" 
+                              Style="{StaticResource SectionTitle}"
+                              Margin="0,0,0,15"/>
+
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Text="Poste" Style="{StaticResource InfoLabel}"/>
+                        <TextBlock Text="{Binding Poste}" Style="{StaticResource InfoValue}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Text="Ancienneté" Style="{StaticResource InfoLabel}"/>
+                        <TextBlock Style="{StaticResource InfoValue}">
+                            <Run Text="{Binding Anciennete, Mode=OneWay}"/>
+                            <Run Text=" ans"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Text="Membre depuis" Style="{StaticResource InfoLabel}"/>
+                        <TextBlock Text="{Binding DateCreation, StringFormat='dd MMMM yyyy'}" 
+                                  Style="{StaticResource InfoValue}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,0" 
+                               Visibility="{Binding Age, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Âge" Style="{StaticResource InfoLabel}"/>
+                        <TextBlock Style="{StaticResource InfoValue}">
+                            <Run Text="{Binding Age, Mode=OneWay}"/>
+                            <Run Text=" ans"/>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- ===== COLONNE DROITE : Formulaire d'édition ===== -->
+        <Grid Grid.Column="1" Margin="30,20,30,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- En-tête -->
+            <TextBlock Grid.Row="0" 
+                      Text="Paramètres du Compte" 
+                      FontSize="28" 
+                      FontWeight="Bold"
+                      Foreground="{StaticResource DarkBlue}" 
+                      HorizontalAlignment="Left"
+                      Margin="0,0,0,20"/>
+
+            <!-- Formulaire scrollable -->
+            <ScrollViewer Grid.Row="1" 
+                         Style="{StaticResource ModernScrollViewer}"
+                         VerticalScrollBarVisibility="Auto"
+                         Padding="0,0,10,0">
+                <StackPanel>
+                    <!-- Nom complet avec Check/Cross -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <items:EditerLabel 
+                            x:Name="NameField"
+                            Grid.Column="0" Grid.Row="0"
+                            LabelTitle="Nom Complet *"
+                            EditableInfos="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsReadOnly="True"
+                            LabelTitleColor="{StaticResource DarkBlue}"
+                            LabelColor="{Binding NameBorderColor}"
+                            InfoColor="{StaticResource DarkBlue}"
+                            BackgroundColor="White"
+                            PencilColor="{StaticResource PrimaryBlue}"
+                            TextTitleSize="13"
+                            InfoSize="15"
+                            PencilSize="16"
+                            CheckIsVisible="False"
+                            CrossIsVisible="False"/>
+
+                        <!-- Green Check (visible après soumission si valide) -->
+                        <Grid Grid.Column="1" Grid.Row="0" Width="28" Height="28" VerticalAlignment="Center" Margin="5,18,0,0">
+                            <Grid.Visibility>
+                                <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                    <Binding Path="ShowValidationIndicators"/>
+                                    <Binding Path="NameIsValid"/>
+                                </MultiBinding>
+                            </Grid.Visibility>
+                            <Ellipse Fill="LimeGreen" Stroke="LimeGreen" StrokeThickness="1"/>
+                            <Path Data="M7,15 L12,20 L21,9"
+                                  Stroke="White"
+                                  StrokeThickness="2.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  Fill="Transparent"/>
+                        </Grid>
+
+                        <!-- Red Cross (visible après soumission si invalide) -->
+                        <Grid Grid.Column="1" Grid.Row="0" Width="28" Height="28" VerticalAlignment="Center" Margin="5,18,0,0">
+                            <Grid.Visibility>
+                                <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                    <Binding Path="ShowValidationIndicators"/>
+                                    <Binding Path="NameIsValid" Converter="{StaticResource InverseBoolConverter}"/>
+                                </MultiBinding>
+                            </Grid.Visibility>
+                            <Ellipse Fill="Red" Stroke="Red" StrokeThickness="1"/>
+                            <Path Data="M 8,8 L 20,20 M 8,20 L 20,8"
+                                  Stroke="White"
+                                  StrokeThickness="2.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"/>
+                        </Grid>
+
+                        <!-- Message de validation -->
+                        <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                   Text="{Binding NameError}" 
+                                   Foreground="{Binding NameErrorColor}"
+                                   FontSize="11"
+                                   Margin="4,3,0,0"
+                                   Visibility="{Binding NameError, Converter={StaticResource StringToVisibilityConverter}}"/>
+                    </Grid>
+
+                    <!-- Date de naissance -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" 
+                                  Text="Date de Naissance" 
+                                  FontSize="13" 
+                                  FontWeight="SemiBold"
+                                  Foreground="{StaticResource DarkBlue}"
+                                  Margin="4,0,0,4"/>
+
+                        <Border Grid.Row="1" 
+                               x:Name="DateBorder"
+                               CornerRadius="12"
+                               BorderThickness="1.5"
+                               BorderBrush="{StaticResource PrimaryBlue}"
+                               Background="White"
+                               Padding="8,6">
+                            <DatePicker 
+                                SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                FontSize="15"
+                                Foreground="{StaticResource DarkBlue}"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Adresse -->
+                    <items:EditerLabel 
+                        x:Name="AdresseField"
+                        LabelTitle="Adresse"
+                        EditableInfos="{Binding Adresse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsReadOnly="True"
+                        LabelTitleColor="{StaticResource DarkBlue}"
+                        LabelColor="{StaticResource PrimaryBlue}"
+                        InfoColor="{StaticResource DarkBlue}"
+                        BackgroundColor="White"
+                        PencilColor="{StaticResource PrimaryBlue}"
+                        TextTitleSize="13"
+                        InfoSize="15"
+                        PencilSize="16"
+                        CheckIsVisible="False"
+                        CrossIsVisible="False"
+                        Margin="0,0,0,12"/>
+
+                    <!-- Email avec Check/Cross -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <items:EditerLabel 
+                            x:Name="EmailField"
+                            Grid.Column="0" Grid.Row="0"
+                            LabelTitle="Adresse Email *"
+                            EditableInfos="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsReadOnly="True"
+                            LabelTitleColor="{StaticResource DarkBlue}"
+                            LabelColor="{Binding EmailBorderColor}"
+                            InfoColor="{StaticResource DarkBlue}"
+                            BackgroundColor="White"
+                            PencilColor="{StaticResource PrimaryBlue}"
+                            TextTitleSize="13"
+                            InfoSize="15"
+                            PencilSize="16"
+                            CheckIsVisible="False"
+                            CrossIsVisible="False"/>
+
+                        <Grid Grid.Column="1" Grid.Row="0" Width="28" Height="28" VerticalAlignment="Center" Margin="5,18,0,0">
+                            <Grid.Visibility>
+                                <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                    <Binding Path="ShowValidationIndicators"/>
+                                    <Binding Path="EmailIsValid"/>
+                                </MultiBinding>
+                            </Grid.Visibility>
+                            <Ellipse Fill="LimeGreen"/>
+                            <Path Data="M7,15 L12,20 L21,9" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Fill="Transparent"/>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Grid.Row="0" Width="28" Height="28" VerticalAlignment="Center" Margin="5,18,0,0">
+                            <Grid.Visibility>
+                                <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                    <Binding Path="ShowValidationIndicators"/>
+                                    <Binding Path="EmailIsValid" Converter="{StaticResource InverseBoolConverter}"/>
+                                </MultiBinding>
+                            </Grid.Visibility>
+                            <Ellipse Fill="Red"/>
+                            <Path Data="M 8,8 L 20,20 M 8,20 L 20,8" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                        </Grid>
+
+                        <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                   Text="{Binding EmailError}" 
+                                   Foreground="{Binding EmailErrorColor}"
+                                   FontSize="11"
+                                   Margin="4,3,0,0"
+                                   Visibility="{Binding EmailError, Converter={StaticResource StringToVisibilityConverter}}"/>
+                    </Grid>
+
+                    <!-- Téléphone avec Check/Cross -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <items:EditerLabel 
+                            x:Name="TelephoneField"
+                            Grid.Column="0" Grid.Row="0"
+                            LabelTitle="Numéro de Téléphone"
+                            EditableInfos="{Binding Telephone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsReadOnly="True"
+                            LabelTitleColor="{StaticResource DarkBlue}"
+                            LabelColor="{Binding TelephoneBorderColor}"
+                            InfoColor="{StaticResource DarkBlue}"
+                            BackgroundColor="White"
+                            PencilColor="{StaticResource PrimaryBlue}"
+                            TextTitleSize="13"
+                            InfoSize="15"
+                            PencilSize="16"
+                            CheckIsVisible="False"
+                            CrossIsVisible="False"/>
+
+                        <Grid Grid.Column="1" Grid.Row="0" Width="28" Height="28" VerticalAlignment="Center" Margin="5,18,0,0">
+                            <Grid.Visibility>
+                                <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                    <Binding Path="ShowValidationIndicators"/>
+                                    <Binding Path="TelephoneIsValid"/>
+                                </MultiBinding>
+                            </Grid.Visibility>
+                            <Ellipse Fill="LimeGreen"/>
+                            <Path Data="M7,15 L12,20 L21,9" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Fill="Transparent"/>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Grid.Row="0" Width="28" Height="28" VerticalAlignment="Center" Margin="5,18,0,0">
+                            <Grid.Visibility>
+                                <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                    <Binding Path="ShowValidationIndicators"/>
+                                    <Binding Path="TelephoneIsValid" Converter="{StaticResource InverseBoolConverter}"/>
+                                </MultiBinding>
+                            </Grid.Visibility>
+                            <Ellipse Fill="Red"/>
+                            <Path Data="M 8,8 L 20,20 M 8,20 L 20,8" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                        </Grid>
+
+                        <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                   Text="{Binding TelephoneError}" 
+                                   Foreground="{Binding TelephoneErrorColor}"
+                                   FontSize="11"
+                                   Margin="4,3,0,0"
+                                   Visibility="{Binding TelephoneError, Converter={StaticResource StringToVisibilityConverter}}"/>
+                    </Grid>
+
+                    <!-- Bouton Modifier Mot de Passe -->
+                    <Button Content="🔐 Modifier le mot de passe"
+                           Command="{Binding TogglePasswordEditCommand}"
+                           Background="{StaticResource LightBlue}"
+                           Foreground="White"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Padding="15,8"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                           HorizontalAlignment="Left"
+                           Margin="0,5,0,15">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                   CornerRadius="8"
+                                                   Padding="{TemplateBinding Padding}">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="#204E7A" Opacity="0.2" BlurRadius="8" ShadowDepth="2"/>
+                                                </Border.Effect>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource PrimaryBlue}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- Section Mot de Passe -->
+                    <StackPanel Visibility="{Binding IsPasswordEditMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <!-- Nouveau mot de passe -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0"
+                                      Text="Nouveau mot de passe *" 
+                                      FontSize="13" 
+                                      FontWeight="SemiBold"
+                                      Foreground="{StaticResource DarkBlue}"
+                                      Margin="4,0,0,4"/>
+
+                            <Border Grid.Column="0" Grid.Row="1"
+                                   CornerRadius="12"
+                                   BorderThickness="1.5"
+                                   BorderBrush="{Binding PasswordBorderColor}"
+                                   Background="White"
+                                   Padding="8,6">
+                                <PasswordBox x:Name="NewPasswordBox"
+                                           PasswordChanged="NewPasswordBox_PasswordChanged"
+                                           BorderThickness="0"
+                                           Background="Transparent"
+                                           FontSize="15"
+                                           Foreground="{StaticResource DarkBlue}"/>
+                            </Border>
+
+                            <Grid Grid.Column="1" Grid.Row="1" Width="28" Height="28" VerticalAlignment="Center" Margin="5,0,0,0">
+                                <Grid.Visibility>
+                                    <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                        <Binding Path="ShowValidationIndicators"/>
+                                        <Binding Path="PasswordIsValid"/>
+                                    </MultiBinding>
+                                </Grid.Visibility>
+                                <Ellipse Fill="LimeGreen"/>
+                                <Path Data="M7,15 L12,20 L21,9" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Fill="Transparent"/>
+                            </Grid>
+
+                            <Grid Grid.Column="1" Grid.Row="1" Width="28" Height="28" VerticalAlignment="Center" Margin="5,0,0,0">
+                                <Grid.Visibility>
+                                    <MultiBinding Converter="{StaticResource ValidationVisibilityConverter}">
+                                        <Binding Path="ShowValidationIndicators"/>
+                                        <Binding Path="PasswordIsValid" Converter="{StaticResource InverseBoolConverter}"/>
+                                    </MultiBinding>
+                                </Grid.Visibility>
+                                <Ellipse Fill="Red"/>
+                                <Path Data="M 8,8 L 20,20 M 8,20 L 20,8" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                            </Grid>
+
+                            <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
+                                      Text="{Binding PasswordStrength}" 
+                                      Foreground="{Binding PasswordStrengthColor}"
+                                      FontSize="11"
+                                      FontWeight="SemiBold"
+                                      Margin="4,3,0,0"/>
+                        </Grid>
+
+                        <!-- Confirmer mot de passe -->
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <items:EditerLabel 
+                                x:Name="ConfirmPasswordField"
+                                Grid.Column="0" Grid.Row="0"
+                                LabelTitle="Confirmer le mot de passe *"
+                                EditableInfos="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsReadOnly="False"
+                                LabelTitleColor="{StaticResource DarkBlue}"
+                                LabelColor="{Binding PasswordBorderColor}"
+                                InfoColor="{StaticResource DarkBlue}"
+                                BackgroundColor="White"
+                                PencilColor="{StaticResource PrimaryBlue}"
+                                TextTitleSize="13"
+                                InfoSize="15"
+                                PencilSize="16"
+                                CheckIsVisible="False"
+                                CrossIsVisible="False"/>
+
+                            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                       Text="{Binding PasswordError}" 
+                                       Foreground="{Binding PasswordErrorColor}"
+                                       FontSize="11"
+                                       Margin="4,3,0,0"
+                                       Visibility="{Binding PasswordError, Converter={StaticResource StringToVisibilityConverter}}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Indicateur de modifications -->
+                    <Border Background="#FFF3CD" 
+                           CornerRadius="10" 
+                           Padding="12,8"
+                           Margin="0,10,0,0"
+                           Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#856404" Opacity="0.15" BlurRadius="6" ShadowDepth="1"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal">
+                            <Path Data="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M11,7V13H13V7H11M11,15V17H13V15H11Z" 
+                                 Fill="#856404" 
+                                 Width="18" 
+                                 Height="18"
+                                 Stretch="Uniform"
+                                 Margin="0,0,8,0"/>
+                            <TextBlock Text="Vous avez des modifications non sauvegardées" 
+                                      Foreground="#856404"
+                                      FontSize="13"
+                                      FontWeight="SemiBold"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Boutons d'action -->
+            <Border Grid.Row="2" 
+                   Background="Transparent" 
+                   CornerRadius="12" 
+                   Padding="20"
+                   Margin="0,15,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Réinitialiser"
+                           Width="150" 
+                           Height="42" 
+                           Margin="0,0,12,0"
+                           Background="#DC3545"
+                           Tag="#E74C3C"
+                           Uid="#C0392B"
+                           Foreground="White"
+                           FontWeight="Bold" 
+                           FontSize="14"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                           Style="{StaticResource ActionBouton}"
+                           Command="{Binding ResetCommand}"
+                           IsEnabled="{Binding HasChanges}">
+                        <Button.Effect>
+                            <DropShadowEffect Color="#DC3545" Opacity="0.3" 
+                                            BlurRadius="10" ShadowDepth="2"/>
+                        </Button.Effect>
+                    </Button>
+
+                    <Button Content="Sauvegarder"
+                           Width="150" 
+                           Height="42" 
+                           Margin="12,0,0,0"
+                           Foreground="White"
+                           Background="#28A745"
+                           Tag="#5CB85C"
+                           Uid="#3F7F4E"
+                           FontWeight="Bold" 
+                           FontSize="14"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                           Style="{StaticResource ActionBouton}"
+                           Command="{Binding SaveCommand}"
+                           IsEnabled="{Binding CanSave}">
+                        <Button.Effect>
+                            <DropShadowEffect Color="#28A745" Opacity="0.3" 
+                                            BlurRadius="10" ShadowDepth="2"/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

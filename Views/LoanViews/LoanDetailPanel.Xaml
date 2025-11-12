@@ -1,0 +1,373 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.Views.LoanViews.LoanDetailPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"         
+             mc:Ignorable="d" 
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             Width="400"
+             x:Name="root"
+             Background="White">
+
+    <Border BorderBrush="#E0E0E0" BorderThickness="1,0,0,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="#1565C0" Padding="20">
+                <Grid>
+                    <TextBlock Text="Détails de l'Emprunt"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                    <items:IconButton x:Name="CloseBtn"
+                                      IconKind="Close"
+                                      IconSize="20"
+                                      IconColor="White"
+                                      ButtonColor="Transparent"
+                                      ButtonWidth="36"
+                                      ButtonHeight="36"
+                                      Shape="Circle"
+                                      HorizontalAlignment="Right"/>
+                </Grid>
+            </Border>
+
+            <!-- Contenu principal -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+                <StackPanel>
+
+                    <!-- Référence -->
+                    <TextBlock Text="{Binding Ref_Loan}" 
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#212121"
+                               Margin="0,0,0,20"/>
+
+                    <!-- Informations principales -->
+                    <StackPanel>
+                        <!-- Livre -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Livre" 
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Book.Title}" 
+                                           FontSize="14" Foreground="#212121" TextWrapping="Wrap"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Abonné -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Abonné" 
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Subscriber.Name_User}" 
+                                           FontSize="14" Foreground="#212121"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Date d'emprunt -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Emprunté le" 
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+                                <TextBlock Grid.Column="1" Text="{Binding BorrowDate, StringFormat='{}{0:dd MMM yyyy}'}" 
+                                           FontSize="14" Foreground="#212121"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Date de retour - MODIFIABLE -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,10">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Retour prévu" 
+                                               FontSize="14" FontWeight="SemiBold" Foreground="#757575"
+                                               VerticalAlignment="Center"/>
+
+                                    <!-- Affichage normal -->
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding ReturnDate, StringFormat='{}{0:dd MMM yyyy}'}" 
+                                               FontSize="14" Foreground="#212121"
+                                               VerticalAlignment="Center"
+                                               Visibility="{Binding IsEditingReturnDate, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+
+                                    <!-- Mode édition -->
+                                    <DatePicker Grid.Column="1"
+                                                SelectedDate="{Binding NewReturnDate, Mode=TwoWay}"
+                                                FontSize="14"
+                                                VerticalAlignment="Center"
+                                                Visibility="{Binding IsEditingReturnDate, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                    <!-- Bouton Modifier -->
+                                    <Button Grid.Column="2"
+                                            Content="✏️ Modifier"
+                                            Command="{Binding EditReturnDateCommand}"
+                                            FontSize="12"
+                                            Padding="8,4"
+                                            Margin="5,0,0,0"
+                                            Background="#1565C0"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Visibility="{Binding IsEditingReturnDate, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}" 
+                                                                    CornerRadius="4" 
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#1976D2"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Background" Value="#BDBDBD"/>
+                                                        <Setter Property="Foreground" Value="#757575"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+
+                                <!-- Boutons Sauvegarder/Annuler en mode édition -->
+                                <StackPanel Orientation="Horizontal" 
+                                            Margin="120,10,0,0"
+                                            Visibility="{Binding IsEditingReturnDate, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Button Content="✅ Enregistrer"
+                                            Command="{Binding SaveReturnDateCommand}"
+                                            FontSize="12"
+                                            Padding="10,5"
+                                            Background="#4CAF50"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Margin="0,0,5,0">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}" 
+                                                                    CornerRadius="4" 
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#388E3C"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Background" Value="#BDBDBD"/>
+                                                        <Setter Property="Foreground" Value="#757575"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+
+                                    <Button Content="❌ Annuler"
+                                            Command="{Binding CancelEditReturnDateCommand}"
+                                            FontSize="12"
+                                            Padding="10,5"
+                                            Background="#F44336"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}" 
+                                                                    CornerRadius="4" 
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#D32F2F"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </StackPanel>
+
+                                <!-- Message d'erreur -->
+                                <TextBlock Text="{Binding ReturnDateErrorMessage}"
+                                           Foreground="#F44336"
+                                           FontSize="12"
+                                           Margin="120,5,0,0"
+                                           TextWrapping="Wrap"
+                                           Visibility="{Binding HasReturnDateError, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Statut -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Statut" 
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Ellipse Width="10" Height="10" 
+                                             Fill="{Binding StatusColor}" 
+                                             Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding StatusLabel}" 
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="{Binding StatusColor}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Pénalité -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,10"
+                                Visibility="{Binding Penalty, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Pénalité" 
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Penalty, StringFormat='{}{0:C2}'}"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           Foreground="{Binding PenaltyColor}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Retard -->
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Retard" 
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding DaysLate, StringFormat='{}{0} jour(s)'}"
+                                           FontSize="14"
+                                           Foreground="{Binding StatusColor}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <Border Grid.Row="2" Background="#F5F5F5" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="20">
+                <StackPanel>
+                    <Button Content="📦 Clôturer cet emprunt"
+                            Background="#1565C0"
+                            Foreground="White"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Height="45"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Command="{Binding OpenReturnPanelCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#1976D2"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="#BDBDBD"/>
+                                        <Setter Property="Foreground" Value="#757575"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Content="Fermer"
+                            Background="Transparent"
+                            Foreground="#1565C0"
+                            FontSize="14"
+                            Height="40"
+                            Command="{Binding CloseCommand}"
+                            BorderBrush="#1565C0"
+                            BorderThickness="2"
+                            Cursor="Hand"
+                            Margin="0,10,0,0">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                                   CornerRadius="8"
+                                                   Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#E3F2FD"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

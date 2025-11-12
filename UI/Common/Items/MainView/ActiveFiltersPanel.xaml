@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Common.Items.MainView.ActiveFiltersPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items"
+             xmlns:labels="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items"
+             mc:Ignorable="d"
+             MinHeight="48"
+              xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             x:Name="root"
+             Visibility="{Binding IsPanelVisible, ElementName=root, Converter={StaticResource BoolToVisibilityConverter}}">
+
+    <Border x:Name="PanelBorder"
+            Background="AliceBlue"
+            BorderBrush="#1565C0"
+            BorderThickness="0,0,0,1"
+            Padding="20,10"
+           >
+
+        <Grid x:Name="PanelGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="TitleLabel"
+                       Text="Filtres Actifs :"
+                       Foreground="#1565C0"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+
+            <UniformGrid x:Name="FiltersGrid"
+                         Grid.Column="1"
+                         Rows="1"
+                         VerticalAlignment="Center"
+                         Margin="0"
+                         Columns="{Binding Filters.Count, ElementName=root, FallbackValue=1}">
+                <!-- Les ActiveFiltersLabel sont générés par code-behind -->
+            </UniformGrid>
+            <items:IconButton  x:Name="ResetFilterBtn"
+                Grid.Column="2" IconKind="Close" IconSize="15" ButtonHeight="20" ButtonWidth="20" HorizontalAlignment="Right" VerticalAlignment="Top" IconColor="#8F8F8F"
+                               Command="{Binding ResetFilterCommand, ElementName=root}"
+                             MouseRightButtonDown="ResetFilterBtn_Click"
+                              /> 
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,273 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.Views.BookViews.BookBorrowPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             Width="400"
+             x:Name="root"
+             Background="White">
+
+    <Border BorderBrush="#E0E0E0" BorderThickness="1,0,0,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" 
+                   Background="#4CAF50"
+                   Padding="20">
+                <Grid>
+                    <TextBlock Text="Emprunter un Livre" 
+                              FontSize="20"
+                              FontWeight="SemiBold"
+                              Foreground="White"
+                              VerticalAlignment="Center"/>
+
+                    <items:IconButton x:Name="CloseBtn"
+                        IconKind="Close"
+                                     IconSize="20"
+                                     IconColor="White"
+                                     ButtonColor="Transparent"
+                                     ButtonWidth="36"
+                                     ButtonHeight="36"
+                                     Shape="Circle"
+                                     HorizontalAlignment="Right"
+                                    />
+                </Grid>
+            </Border>
+
+            <!-- Contenu -->
+            <ScrollViewer Grid.Row="1" 
+                         VerticalScrollBarVisibility="Auto"
+                         Padding="20">
+                <StackPanel>
+                    <!-- Résumé du livre -->
+                    <Border Background="#F5F5F5"
+                           CornerRadius="12"
+                           Padding="15"
+                           Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0"
+                                   Width="80"
+                                   Height="100"
+                                   CornerRadius="8"
+                                   Background="White">
+                                <Image Source="{Binding DisplayCoverUrl}" 
+                                      Stretch="UniformToFill"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1" 
+                                       Margin="15,0,0,0"
+                                       VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" 
+                                          FontSize="16"
+                                          FontWeight="SemiBold"
+                                          Foreground="#212121"
+                                          TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Author}" 
+                                          FontSize="14"
+                                          Foreground="#757575"
+                                          Margin="0,4,0,0"/>
+                                <TextBlock Text="{Binding ISBN}" 
+                                          FontSize="12"
+                                          Foreground="#9E9E9E"
+                                          Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Recherche d'abonné -->
+                    <TextBlock Text="Entrer l'identifiant de l'abonnée" 
+                              FontSize="16"
+                              FontWeight="SemiBold"
+                              Foreground="#212121"
+                              Margin="0,0,0,10"/>
+                    <TextBlock
+                        x:Name="Statut_Message"
+                            Text=""
+                         Visibility="Collapsed"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                             Foreground="#212121"
+             Margin="0,0,0,10"/>
+
+                    <Border x:Name="IDSub_Box"
+                        Background="White"
+                           BorderBrush="#E0E0E0"
+                           BorderThickness="2"
+                           CornerRadius="8"
+                           Padding="12"
+                           Margin="0,0,0,15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox x:Name="SubscriberSearchBox"
+                                    Grid.Column="0"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    FontSize="14"
+                                    VerticalAlignment="Center"
+                                   >
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="TextBox">
+                                                    <Grid>
+                                                        <ScrollViewer x:Name="PART_ContentHost"/>
+                                                        <TextBlock Text=" ID de l'abonné..."
+                                                                  IsHitTestVisible="False"
+                                                                  Foreground="#BDBDBD"
+                                                                  VerticalAlignment="Center">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" Value="">
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+
+                            
+                        </Grid>
+                    </Border>
+
+             
+
+                    <!-- Date de retour -->
+                    <TextBlock Text="Date de retour prévue" 
+                              FontSize="16"
+                              FontWeight="SemiBold"
+                              Foreground="#212121"
+                              Margin="0,0,0,10"/>
+
+                    <items:DateSelector x:Name="ReturnDatePicker"  Margin="10"/>
+
+                    <!-- Durée d'emprunt suggérée -->
+                    <StackPanel Orientation="Horizontal" 
+                               Margin="0,0,0,20">
+                        <TextBlock Text="Durée suggérée: " 
+                                  FontSize="13"
+                                  Foreground="#757575"
+                                  VerticalAlignment="Center"/>
+                        <Button Content="7 jours"
+                               Background="#E3F2FD"
+                               Foreground="#1565C0"
+                               BorderThickness="0"
+                               Padding="10,5"
+                               Margin="5,0"
+                               FontSize="12"
+                               Cursor="Hand"
+                               Click="Set7Days_Click"/>
+                        <Button Content="14 jours"
+                               Background="#E3F2FD"
+                               Foreground="#1565C0"
+                               BorderThickness="0"
+                               Padding="10,5"
+                               Margin="5,0"
+                               FontSize="12"
+                               Cursor="Hand"
+                               Click="Set14Days_Click"/>
+                        <Button Content="21 jours"
+                               Background="#E3F2FD"
+                               Foreground="#1565C0"
+                               BorderThickness="0"
+                               Padding="10,5"
+                               Margin="5,0"
+                               FontSize="12"
+                               Cursor="Hand"
+                               Click="Set21Days_Click"/>
+                    </StackPanel>
+
+                    <!-- Notes (optionnel) -->
+                    <TextBlock Text="Notes (optionnel)" 
+                              FontSize="16"
+                              FontWeight="SemiBold"
+                              Foreground="#212121"
+                              Margin="0,0,0,10"/>
+
+                    <TextBox x:Name="NotesTextBox"
+                            Height="80"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            VerticalScrollBarVisibility="Auto"
+                            Background="White"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="2"
+                            Padding="10"
+                            FontSize="14"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <Border Grid.Row="2" 
+                   Background="#F5F5F5"
+                   BorderBrush="#E0E0E0"
+                   BorderThickness="0,1,0,0"
+                   Padding="20">
+                <StackPanel>
+                    <Button Content="Confirmer l'emprunt"
+                           Background="#4CAF50"
+                           Foreground="White"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Height="45"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                    >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                   CornerRadius="8">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#66BB6A"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Content="Annuler"
+                           Background="Transparent"
+                           Foreground="#757575"
+                           FontSize="14"
+                           Height="40"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                           Margin="0,10,0,0"
+                           Command="{Binding CloseCommand , ElementName=root}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

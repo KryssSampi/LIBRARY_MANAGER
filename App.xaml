@@ -1,0 +1,29 @@
+﻿<Application x:Class="LIBBRARY_MANAGER.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:LIBBRARY_MANAGER.UI.Common.Converters"
+             StartupUri="/LoginModule/Login_Page.Xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Common/Style/GlobalStyleManager.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Convertisseurs globaux -->
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
+            <converters:BoolToTextConverter x:Key="BoolToTextConverter"/>
+            <converters:PenaltyToColorConverter x:Key="PenaltyToColorConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:LoanStatusToColorConverter x:Key="LoanStatusToColorConverter"/>
+            <converters:LoanStatusToTextConverter x:Key="LoanStatusToTextConverter"/>
+            <converters:LoanLateColorConverter x:Key="LoanLateColorConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <converters:ValidationVisibilityConverter x:Key="ValidationVisibilityConverter"/>
+            <converters:NullToVisibilityReverseConverter x:Key="NullTovisiblityReverseConverter"/>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+
+</Application>

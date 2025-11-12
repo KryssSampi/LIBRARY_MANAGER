@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\Library_Manager.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="LoginModule\Core\" />
+    <Folder Include="Services\" />
+    <Folder Include="UI\Common\Assets\IconButton_Images\" />
+    <Folder Include="UI\Common\Items\Iconbutton\Icon_Img\" />
+    <Folder Include="UI\Modules\AccountStaffManager\Core\" />
+    <Folder Include="UI\Modules\AccountStaffManager\View\" />
+    <Folder Include="UI\Modules\BorrowModule\Assets\" />
+    <Folder Include="UI\Modules\BorrowModule\Core\" />
+    <Folder Include="UI\Modules\BorrowModule\Items\" />
+    <Folder Include="UI\Modules\BorrowModule\Views\" />
+    <Folder Include="UI\Modules\HomeSpace\Core\" />
+    <Folder Include="UI\Modules\HomeSpace\Assets\" />
+    <Folder Include="UI\Modules\HomeSpace\Views\" />
+    <Folder Include="UI\Modules\LoanCatalog\VIews\" />
+    <Folder Include="UI\Modules\Navbar\Core\" />
+    <Folder Include="UI\Modules\Navbar\Items\" />
+    <Folder Include="UI\Modules\Navbar\ViewModel\" />
+    <Folder Include="UI\Modules\Navbar\View\" />
+    <Folder Include="UI\Modules\ReturnModule\Assets\" />
+    <Folder Include="UI\Modules\ReturnModule\Core\" />
+    <Folder Include="UI\Modules\ReturnModule\Items\" />
+    <Folder Include="UI\Modules\ReturnModule\Views\" />
+    <Folder Include="UI\Modules\SubscriberCatalog\items\" />
+    <Folder Include="ViewModel\StaffViewModels\" />
+    <Folder Include="Views\ModificationView\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="6.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+  </ItemGroup>
+
+</Project>

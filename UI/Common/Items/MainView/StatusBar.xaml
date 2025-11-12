@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Common.Items.MainView.StatusBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items"
+             mc:Ignorable="d" >
+
+    <Border Background="#F5F5F5"
+           BorderBrush="#E0E0E0"
+           BorderThickness="0,1,0,0"
+           Padding="20,10">
+        <Grid>
+            <TextBlock Text="© 2025 NOCTUA Library Manager" 
+                      FontSize="12"
+                      Foreground="#9E9E9E"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock FontSize="12"
+                          Foreground="#757575"
+                          VerticalAlignment="Center"
+                          Margin="0,0,15,0">
+                    <Run Text="Total: "/>
+                    <Run Text="{Binding TotalBooks, RelativeSource={RelativeSource AncestorType=UserControl}}" FontWeight="SemiBold"/>
+                     <Run Text="{Binding ItemsName, RelativeSource={RelativeSource AncestorType=UserControl}}" FontWeight="SemiBold"/>
+                    <Run Text="(s)"/>
+                </TextBlock>
+
+                <TextBlock Text="{Binding ViewMode, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                          FontSize="12"
+                          Foreground="#9E9E9E"
+                          VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

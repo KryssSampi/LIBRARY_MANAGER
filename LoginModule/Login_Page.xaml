@@ -1,0 +1,24 @@
+﻿<Window x:Class="LIBBRARY_MANAGER.LoginModule.Login_Page"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LIBBRARY_MANAGER.LoginModule" xmlns:views="clr-namespace:LIBBRARY_MANAGER.LoginModule.Views"
+        xmlns:GlobalItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Login_Page" Height="450" Width="800">
+    <Grid>
+    <Border CornerRadius="100" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Grid>
+       
+        <views:LoginPage x:Name="LoginPage"/>
+        <GlobalItems:IconButton x:Name="ReduceBtn"  IconKind="Minus"  VerticalAlignment="Top" HorizontalAlignment="Right" IconColor="DimGray" IconSize="15" Margin="70,0" />
+        <GlobalItems:IconButton x:Name="ResizeBtn"  IconKind="ArrowTopRightBottomLeft"  VerticalAlignment="Top" HorizontalAlignment="Right" IconColor="DimGray" IconSize="15" Margin="35,0" IsEnabled="False" />
+        <GlobalItems:IconButton x:Name="CloseBtn"  IconKind="Close"  VerticalAlignment="Top" HorizontalAlignment="Right" IconColor="Red" IconSize="15" Margin="10,0" />
+        </Grid>
+    </Border>
+    </Grid>
+</Window>

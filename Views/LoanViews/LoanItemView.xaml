@@ -1,0 +1,206 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.Views.LoanViews.LoanItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             mc:Ignorable="d"
+             x:Name="root"
+             Height="70"
+             Cursor="Hand">
+    <Button Command="{Binding ViewDetailsCommand, ElementName=root}"
+        Background="Transparent"
+        BorderThickness="0"
+        Cursor="Hand">
+        <Button.Template>
+            <ControlTemplate TargetType="Button">
+                <Border x:Name="ItemBorder"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,0,0,1"
+                    CornerRadius="6"
+                    Padding="10,15,20,10">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FAFAFA" Offset="0.0"/>
+                            <GradientStop Color="#F4F7FA" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="GridScale" ScaleX="1" ScaleY="1"/>
+                        </Grid.RenderTransform>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Référence -->
+                        <TextBlock Grid.Column="0"
+                               Text="{Binding RefLoan}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="#2E3A59"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis"/>
+
+                        <!-- Abonné -->
+                        <TextBlock Grid.Column="1"
+                               Text="{Binding SubscriberName}"
+                               FontSize="14"
+                               FontWeight="Medium"
+                               Foreground="#4A5568"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis"/>
+
+                        <!-- Livre -->
+                        <TextBlock Grid.Column="2"
+                               Text="{Binding BookTitle}"
+                               FontSize="14"
+                               Foreground="#37474F"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis"/>
+
+                        <!-- Date emprunt -->
+                        <TextBlock Grid.Column="3"
+                               Text="{Binding BorrowDateFormatted}"
+                               FontSize="13"
+                               Foreground="#6B7280"
+                               VerticalAlignment="Center"
+                               TextAlignment="Center"/>
+
+                        <!-- Date retour -->
+                        <TextBlock Grid.Column="4"
+                               Text="{Binding ReturnDateFormatted}"
+                               FontSize="13"
+                               Foreground="#6B7280"
+                               VerticalAlignment="Center"
+                               TextAlignment="Center"/>
+
+                        <!-- Statut -->
+                        <StackPanel Grid.Column="5"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                            <Ellipse Width="8" Height="8" Fill="{Binding StatusColor}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{Binding StatusLabel}"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="{Binding StatusColor}"/>
+                        </StackPanel>
+
+                        <!-- Pénalité -->
+                        <TextBlock Grid.Column="6"
+                               Text="{Binding PenaltyText}"
+                               FontSize="13"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding PenaltyColor}"/>
+
+                        <!-- Actions -->
+                        <StackPanel Grid.Column="7"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="8,0,0,0">
+
+                            <items:IconButton IconKind="Eye"
+                                          IconSize="18"
+                                          IconColor="#7B8794"
+                                          ButtonColor="Transparent"
+                                          ButtonWidth="32"
+                                          ButtonHeight="32"
+                                          Shape="Circle"
+                                          ToolTip="Voir les détails"
+                                          Command="{Binding ViewDetailsCommand, ElementName=root}"/>
+
+                            <items:IconButton IconKind="Backburger"
+                                          IconSize="20"
+                                          IconColor="#6BAA75"
+                                          ButtonColor="Transparent"
+                                          ButtonWidth="32"
+                                          ButtonHeight="32"
+                                          Shape="Circle"
+                                          ToolTip="Marquer comme retourné"
+                                          Command="{Binding MarkReturnedCommand, ElementName=root}"
+                                          Margin="2,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ✅ Triggers avec animations fluides -->
+                <ControlTemplate.Triggers>
+                    <!-- Survol -->
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Color"
+                                                To="#E6EEF9" Duration="0:0:0.3"/>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1.05"
+                                                 Duration="0:0:0.25">
+                                        <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1.05"
+                                                 Duration="0:0:0.25">
+                                        <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Color"
+                                                To="#F4F7FA" Duration="0:0:0.3"/>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1"
+                                                 Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1"
+                                                 Duration="0:0:0.25"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.ExitActions>
+                    </Trigger>
+
+                    <!-- Appui -->
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="ItemBorder" Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#E8F0FE" Offset="0.0"/>
+                                    <GradientStop Color="#D2E3FC" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#4285F4"/>
+                        <Setter TargetName="ItemBorder" Property="BorderThickness" Value="0,0,4,1"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Button.Template>
+    </Button>
+</UserControl>

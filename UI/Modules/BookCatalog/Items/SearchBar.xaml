@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Modules.BookCatalog.Items.SearchBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             MaxWidth="800"
+             HorizontalAlignment="Center">
+
+    <Border Background="{Binding CardBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+           CornerRadius="25"
+           Padding="20,15"
+           Margin="0,0,0,40"
+            MinWidth="500">
+        <Border.Effect>
+            <DropShadowEffect Color="{Binding ShadowColor, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                            Opacity="0.15" 
+                            BlurRadius="20" 
+                            ShadowDepth="5"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="SearchBox"
+                    Grid.Column="0"
+                    BorderThickness="0"
+                    Background="Transparent"
+                    FontSize="16"
+                    VerticalAlignment="Center"
+                    Padding="15,0"
+                    KeyDown="SearchBox_KeyDown">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Grid>
+                                        <Border Background="{TemplateBinding Background}"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ScrollViewer x:Name="PART_ContentHost" 
+                                                        Margin="{TemplateBinding Padding}"/>
+                                        </Border>
+                                        <TextBlock Text="{Binding Placeholder, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                  IsHitTestVisible="False"
+                                                  Foreground="#BDBDBD"
+                                                  FontSize="16"
+                                                  Padding="15,0"
+                                                  VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <items:IconButton Grid.Column="1"
+                             IconKind="Magnify"
+                             IconSize="{Binding IconSize, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                             IconColor="White"
+                             ButtonColor="{Binding ButtonColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                             ButtonWidth="50"
+                             ButtonHeight="50"
+                             Shape="Circle"
+                             Margin="10,0,0,0"/>
+        </Grid>
+    </Border>
+</UserControl>

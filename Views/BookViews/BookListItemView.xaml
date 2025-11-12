@@ -1,0 +1,257 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.Views.BookViews.BookListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             x:Name="root"
+             Height="80"
+             Cursor="Hand">
+
+    <!-- ✅ CORRECTION: Ajouter CommandParameter pour passer le bon DataContext -->
+    <Button Command="{Binding ShowDetailCommand, ElementName=root}"
+            CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            Background="Transparent"
+            BorderThickness="0"
+            x:Name="ItemBorder"
+            Cursor="Hand">
+
+        <Button.Template>
+            <ControlTemplate TargetType="Button">
+                <Border x:Name="ItemBorder"
+                        BorderBrush="#E0E0E0"
+                        BorderThickness="0,0,0,1"
+                        CornerRadius="6"
+                        Padding="10,15,25,10">
+
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FAFAFA" Offset="0.0"/>
+                            <GradientStop Color="#F4F7FA" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="GridScale" ScaleX="1" ScaleY="1"/>
+                        </Grid.RenderTransform>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1.2*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 🟦 Titre -->
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="12,0,8,0">
+                            <TextBlock Text="{Binding Title}"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1A1A1A"
+                                       TextTrimming="CharacterEllipsis"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                <Border Background="#4CAF50"
+                                        CornerRadius="3"
+                                        Padding="6,2"
+                                        Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="NOUVEAU"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
+                                </Border>
+
+                                <Border Background="#FF9800"
+                                        CornerRadius="3"
+                                        Padding="6,2"
+                                        Margin="4,0,0,0"
+                                        Visibility="{Binding IsPopular, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="POPULAIRE"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Auteur -->
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding Author}"
+                                   FontSize="14"
+                                   Foreground="#333"
+                                   VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"/>
+
+                        <!-- Catégorie -->
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding DisplayCategory}"
+                                   FontSize="14"
+                                   Foreground="#333"
+                                   VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"/>
+
+                        <!-- ISBN -->
+                        <TextBlock Grid.Column="3"
+                                   Text="{Binding ISBN}"
+                                   FontSize="13"
+                                   Foreground="#777"
+                                   VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding ISBN}"/>
+
+                        <!-- Éditeur -->
+                        <TextBlock Grid.Column="4"
+                                   Text="{Binding Publisher}"
+                                   FontSize="14"
+                                   TextAlignment="Center"
+                                   Foreground="#333"
+                                   VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding Publisher}"/>
+
+                        <!-- Année -->
+                        <TextBlock Grid.Column="5"
+                                   Text="{Binding PublishDate, StringFormat='{}{0:yyyy}'}"
+                                   FontSize="13"
+                                   Foreground="#666"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"/>
+
+                        <!-- Langue -->
+                        <TextBlock Grid.Column="6"
+                                   Text="{Binding Language}"
+                                   FontSize="14"
+                                   Foreground="#333"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   TextAlignment="Center"/>
+
+                        <!-- Quantité -->
+                        <StackPanel Grid.Column="7" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Ellipse Width="8" Height="8" Fill="{Binding AvailabilityColor}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{Binding Quantity}"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       Foreground="{Binding AvailabilityColor}"/>
+                        </StackPanel>
+
+                        <!-- Ajouté le -->
+                        <TextBlock Grid.Column="8"
+                                   Text="{Binding DateAdded, StringFormat='{}{0:dd MMM yyyy}'}"
+                                   FontSize="13"
+                                   Foreground="#888"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"/>
+
+                        <!-- ✅ CORRECTION: Actions avec commandes fixées -->
+                        <StackPanel Grid.Column="9"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,0,0">
+                            <!-- Bouton Voir détails -->
+                            <items:IconButton x:Name="EyeButton"
+                                              IconKind="Eye"
+                                              IconSize="18"
+                                              IconColor="#555"
+                                              ButtonColor="Transparent"
+                                              ButtonWidth="32"
+                                              ButtonHeight="32"
+                                              Command="{Binding ShowDetailCommand,ElementName=root}"
+                                              Shape="Circle"
+                                              MouseLeftButtonDown="EyeBtn_Click"
+                                              ToolTip="Voir les détails"
+                                              Margin="2,0"
+                                              Focusable="False"/>
+
+                            <!-- Bouton Emprunter -->
+                            <items:IconButton x:Name="BorrowButton"
+                                              IconKind="Bookmark"
+                                              IconSize="18"
+                                              IconColor="#555"
+                                              MouseLeftButtonDown="BorrowBtn_Click"
+                                              ButtonColor="Transparent"
+                                              ButtonWidth="32"
+                                              Command="{Binding BorrowCommand , ElementName=root}"
+                                              ButtonHeight="32"
+                                              Shape="Circle"
+                                              ToolTip="Emprunter"
+                                              Margin="2,0"
+                                              Focusable="False"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ✨ Animations fluides -->
+                <ControlTemplate.Triggers>
+
+                    <!-- Survol -->
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                    Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Color"
+                                                    To="#E6EEF9"
+                                                    Duration="0:0:0.3"/>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="1.05"
+                                                     Duration="0:0:0.25">
+                                        <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="1.05"
+                                                     Duration="0:0:0.25">
+                                        <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="ItemBorder"
+                                                    Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Color"
+                                                    To="#F4F7FA"
+                                                    Duration="0:0:0.3"/>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="1"
+                                                     Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetName="GridScale"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="1"
+                                                     Duration="0:0:0.25"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.ExitActions>
+                    </Trigger>
+
+                    <!-- Appui -->
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="ItemBorder" Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#E8F0FE" Offset="0.0"/>
+                                    <GradientStop Color="#D2E3FC" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#4285F4"/>
+                        <Setter TargetName="ItemBorder" Property="BorderThickness" Value="0,0,4,1"/>
+                    </Trigger>
+
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Button.Template>
+    </Button>
+</UserControl>

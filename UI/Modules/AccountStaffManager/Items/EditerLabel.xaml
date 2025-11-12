@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.Items.EditerLabel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:GlobalItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             x:Name="root"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="80" d:DesignWidth="300">
+
+    <Grid Margin="0,4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Label -->
+        <TextBlock Text="{Binding LabelTitle, ElementName=root}"
+                   Foreground="{Binding LabelTitleColor, ElementName=root}"
+                   FontWeight="SemiBold"
+                   Margin="4,0,0,2"
+                   FontSize="{Binding TextTitleSize , ElementName=root}"/>
+
+        <!-- Zone d'édition -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+       
+        <Border Grid.Column="0"
+                CornerRadius="{Binding CornerRadiusValue, ElementName=root}"
+                BorderThickness="1.5"
+                BorderBrush="{Binding LabelColor, ElementName=root}"
+                Background="{Binding BackgroundColor, ElementName=root}"
+                Padding="6,2">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Champ texte -->
+                <TextBox x:Name="InfoBox"
+                         Text="{Binding EditableInfos, ElementName=root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Foreground="{Binding InfoColor, ElementName=root}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         IsEnabled="False"
+                         IsReadOnly="{Binding IsReadOnly, ElementName=root}"
+                         FontSize="{Binding InfoSize , ElementName=root}"
+                         VerticalContentAlignment="Center"/>
+
+                <!-- Bouton édition -->
+                <GlobalItems:IconButton
+                    x:Name="Pencil"
+                    Grid.Column="1"
+                    Margin="6,0,0,0"
+                    IconKind="Pencil"
+                    Shape="Circle"
+                    IconColor="{Binding PencilColor, ElementName=root}"
+                    IconSize="{Binding PencilSize, ElementName=root}"
+                    Cursor="Hand"/>
+            </Grid>
+        </Border>
+            <Grid Width="28" Height="28" Grid.Column="1" Visibility="{Binding CrossIsVisible , ElementName=root , Converter={StaticResource BoolToVisibilityConverter}}">
+                <Ellipse Fill="Red" Stroke="Red" StrokeThickness="1"/>
+                <Path Data="M 8,8 L 20,20 M 8,20 L 20,8"
+          Stroke="White"
+          StrokeThickness="2.5"
+          StrokeStartLineCap="Round"
+          StrokeEndLineCap="Round"/>
+            </Grid>
+            <Grid Width="28" Height="28" Grid.Column="1" Visibility="{Binding CheckIsVisible ,ElementName=root, Converter ={ StaticResource  BoolToVisibilityConverter }}">
+                <Ellipse Fill="LimeGreen" Stroke="LimeGreen" StrokeThickness="1"/>
+                <Path Data="M7,15 L12,20 L21,9"
+          Stroke="White"
+          StrokeThickness="2.5"
+          StrokeStartLineCap="Round"
+          StrokeEndLineCap="Round"
+          Fill="Transparent"/>
+            </Grid>
+
+        </Grid>
+        <TextBlock x:Name="StateMessage" Text="{Binding StateMessageText , ElementName=root}" Foreground="{Binding StateMessageColor}" Grid.Row="2" FontSize="{Binding StateMessageSize,ElementName=root}" />
+    </Grid>
+</UserControl>
