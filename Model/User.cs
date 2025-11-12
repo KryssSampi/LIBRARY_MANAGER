@@ -63,6 +63,12 @@ namespace LIBBRARY_MANAGER.Model
             var hash = sha256.ComputeHash(bytes);
             return Convert.ToBase64String(hash);
         }
+        public void SetPassword(string plainPassword)
+        {
+            if (string.IsNullOrWhiteSpace(plainPassword))
+                throw new ArgumentException("Le mot de passe ne peut pas être vide.", nameof(plainPassword));
+            Password = plainPassword;
+        }
 
         public bool VerifyPassword(string inputPassword)
         {

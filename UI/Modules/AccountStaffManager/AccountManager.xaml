@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.AccountStaffManager"
              xmlns:GlobalItem="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items" 
-             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.Items"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.Items" xmlns:viewmodel="clr-namespace:LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:AccountManagerViewModel}"
              mc:Ignorable="d" 
+             x:Name="root"
              MinWidth="1200"
              d:DesignHeight="700" d:DesignWidth="1200">
 
@@ -128,7 +129,7 @@
         </Grid>
 
         <!-- ===== COLONNE DROITE : Formulaire d'édition ===== -->
-        <Grid Grid.Column="1" Margin="30,20,30,20">
+        <Grid Grid.Column="1" Margin="30,20,30,20" x:Name="FormulaireModif">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -149,7 +150,7 @@
                          Style="{StaticResource ModernScrollViewer}"
                          VerticalScrollBarVisibility="Auto"
                          Padding="0,0,10,0">
-                <StackPanel>
+                <StackPanel HorizontalAlignment="Center" Margin="0,0,50,0">
                     <!-- Nom complet avec Check/Cross -->
                     <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
@@ -164,7 +165,7 @@
                         <items:EditerLabel 
                             x:Name="NameField"
                             Grid.Column="0" Grid.Row="0"
-                            LabelTitle="Nom Complet *"
+                            LabelTitle="Nom Complet *"                 
                             EditableInfos="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             IsReadOnly="True"
                             LabelTitleColor="{StaticResource DarkBlue}"
@@ -444,16 +445,35 @@
 
                             <Border Grid.Column="0" Grid.Row="1"
                                    CornerRadius="12"
-                                   BorderThickness="1.5"
+                                   BorderThickness="1.5"                                    
                                    BorderBrush="{Binding PasswordBorderColor}"
                                    Background="White"
                                    Padding="8,6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
                                 <PasswordBox x:Name="NewPasswordBox"
                                            PasswordChanged="NewPasswordBox_PasswordChanged"
                                            BorderThickness="0"
+                                             VerticalAlignment="Center"
                                            Background="Transparent"
                                            FontSize="15"
-                                           Foreground="{StaticResource DarkBlue}"/>
+                                           Foreground="{StaticResource DarkBlue}"
+                                             Visibility="{Binding PasswordIsShowed, ElementName=root, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+                                    <TextBox x:Name="PswdShowed"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding PasswordShowed, ElementName=root}"
+                                            BorderThickness="0"
+    Background="Transparent"
+    FontSize="15"
+    Foreground="{StaticResource DarkBlue}"
+                                        Visibility="{Binding PasswordIsShowed,ElementName=root,Converter={StaticResource BoolToVisibilityConverter}}"
+                                        />
+                                    <GlobalItem:IconButton x:Name="Showpswd" Height="30" IconKind="Eye" IconColor="{StaticResource DarkBlue}" Grid.Column="1" />
+
+                                </Grid>
                             </Border>
 
                             <Grid Grid.Column="1" Grid.Row="1" Width="28" Height="28" VerticalAlignment="Center" Margin="5,0,0,0">
@@ -502,7 +522,7 @@
                                 Grid.Column="0" Grid.Row="0"
                                 LabelTitle="Confirmer le mot de passe *"
                                 EditableInfos="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                IsReadOnly="False"
+                               IsEnabled="True"
                                 LabelTitleColor="{StaticResource DarkBlue}"
                                 LabelColor="{Binding PasswordBorderColor}"
                                 InfoColor="{StaticResource DarkBlue}"

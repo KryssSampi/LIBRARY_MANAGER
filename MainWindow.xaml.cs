@@ -64,7 +64,7 @@ namespace LIBBRARY_MANAGER
         }
         private void InitializeNavigation()
         {
-            MainNavbar.AccountManagerCommand = new RelayCommand(_ => SwitchContent(account));
+            MainNavbar.AccountManagerCommand = new RelayCommand(_ => SwitchContent(new AccountManager(App._currentconnected_User)));
             MainNavbar.BorrowManagerCommand = new RelayCommand(_ => SwitchContent(Gestionnaire_Demprunts));
             MainNavbar.CatalogCommand = new RelayCommand(_ => SwitchContent(Catalogue));
             MainNavbar.MembersCommand = new RelayCommand(_ => SwitchContent(Gestionnaire_DAbonnee));

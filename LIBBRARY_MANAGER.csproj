@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Data\Library_Manager.db" />
+    <None Remove="README.md" />
   </ItemGroup>
 
   <ItemGroup>

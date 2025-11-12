@@ -6,6 +6,7 @@
              xmlns:GlobalItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
              x:Name="root"
              mc:Ignorable="d"
+             MinWidth="450"
              Background="Transparent"
              d:DesignHeight="80" d:DesignWidth="300">
 

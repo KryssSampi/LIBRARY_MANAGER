@@ -54,7 +54,6 @@ namespace LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel
                 }
             }
         }
-
         public int? Age => _birthDate.HasValue
             ? DateTime.Now.Year - _birthDate.Value.Year - (DateTime.Now.DayOfYear < _birthDate.Value.DayOfYear ? 1 : 0)
             : null;
@@ -306,6 +305,8 @@ namespace LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel
         public ICommand ResetCommand { get; }
         public ICommand TogglePasswordEditCommand { get; }
 
+        public ICommand ResetStateCommand { get; set; }
+
         public AccountManagerViewModel(StaffMember? Personnel = null)
         {
             SaveCommand = new RelayCommand(SaveChanges, () => CanSave);
@@ -549,11 +550,47 @@ namespace LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel
         {
             if (!CanSave) return;
 
+            var result = MessageBox.Show(
+       "Êtes-vous sûr de vouloir confirmer toutes les modifications ?",
+       "Confirmation",
+       MessageBoxButton.YesNo,
+       MessageBoxImage.Question
+                 );
+            if( result == MessageBoxResult.No || result == MessageBoxResult.None )
+            {
+                Name = _currentStaff.Name_User;
+                BirthDate = _currentStaff.BirthDate;
+                Adresse = _currentStaff.Adresse;
+                Email = _currentStaff.Adresse_Mail;
+                Telephone = _currentStaff.Num_Telephone;
+                IsPasswordEditMode = false;
+                NewPassword = string.Empty;
+                ConfirmPassword = string.Empty;
+
+                HasChanges = false;
+                ResetStateCommand?.Execute(null);
+                return;
+            }
+
             _currentStaff.Name_User = Name;
             _currentStaff.BirthDate = BirthDate;
             _currentStaff.Adresse = Adresse;
             _currentStaff.Adresse_Mail = Email;
             _currentStaff.Num_Telephone = Telephone;
+
+            var Personnel = App.LibraryDbContext.StaffMembers.Find(_currentStaff.Id_User);
+
+            if (Personnel is not null) {
+                Personnel.Name_User = _currentStaff.Name_User;
+                Personnel.BirthDate = _currentStaff.BirthDate;
+                Personnel.Adresse = _currentStaff.Adresse;
+                Personnel.Adresse_Mail = _currentStaff.Adresse_Mail;
+                Personnel.Num_Telephone = _currentStaff.Adresse_Mail;
+
+                if(_newPassword is not null && PasswordIsValid)
+                Personnel.Password = _newPassword;
+                }
+            savechange();
 
             if (IsPasswordEditMode && !string.IsNullOrEmpty(NewPassword))
             {
@@ -562,7 +599,7 @@ namespace LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel
 
             HasChanges = false;
             IsPasswordEditMode = false;
-
+            ResetStateCommand?.Execute(null);
             MessageBox.Show(
                 "Vos informations ont été modifiées avec succès !",
                 "Succès",
@@ -570,8 +607,9 @@ namespace LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel
                 MessageBoxImage.Information
             );
         }
-       private void ResetStyle() { 
-       
+       private async void savechange()
+        { 
+            await App.LibraryDbContext.SaveChangesAsync();
         
         }
         private void ResetChanges()
@@ -597,6 +635,7 @@ namespace LIBBRARY_MANAGER.UI.Modules.AccountStaffManager.ViewModel
                 ConfirmPassword = string.Empty;
 
                 HasChanges = false;
+                  ResetStateCommand?.Execute(null);
             }
         }
 
