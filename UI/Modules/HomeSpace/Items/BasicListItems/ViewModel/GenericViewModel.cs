@@ -1,117 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using LIBBRARY_MANAGER.Model;
 using LIBBRARY_MANAGER.UI.Modules.HomeSpace.Items.BasicListItems.Views;
 
 namespace LIBBRARY_MANAGER.UI.Modules.HomeSpace.Items.BasicListItems.ViewModel
 {
-   
-        public class GenericItemViewModel
-        {
-            // --- Champs textuels génériques ---
-            public string Info1 { get; set; } = string.Empty;
-            public string Info2 { get; set; } = string.Empty;
-            public string Info3 { get; set; } = string.Empty;
-            public string Info4 { get; set; } = string.Empty;
-            public string Info5 { get; set; } = string.Empty;
+    public class GenericItemViewModel
+    {
+        // Identifiant unique pour la synchronisation
+        public string UniqueId { get; set; } = string.Empty;
+        public DateTime Timestamp { get; set; }
+        public string OperationType { get; set; } = string.Empty; // "Loan" ou "Modification"
 
-            // --- Couleurs d’arrière-plan et texte ---
-            public Brush Info1Background { get; set; } = Brushes.Transparent;
-            public Brush Info2Background { get; set; } = Brushes.Transparent;
-            public Brush Info3Background { get; set; } = Brushes.Transparent;
-            public Brush Info4Background { get; set; } = Brushes.Transparent;
-            public Brush Info5Background { get; set; } = Brushes.Transparent;
+        // Données principales
+        public string Title { get; set; } = string.Empty;
+        public string Reference { get; set; } = string.Empty;
+        public string BookInfo { get; set; } = string.Empty;
+        public string UserInfo { get; set; } = string.Empty;
+        public string DateInfo { get; set; } = string.Empty;
+        public string StatusInfo { get; set; } = string.Empty;
 
-            public Brush Info1Foreground { get; set; } = Brushes.Black;
-            public Brush Info2Foreground { get; set; } = Brushes.Black;
-            public Brush Info3Foreground { get; set; } = Brushes.Black;
-            public Brush Info4Foreground { get; set; } = Brushes.Black;
-            public Brush Info5Foreground { get; set; } = Brushes.Black;
+        // Styles visuels
+        public Brush TitleColor { get; set; } = Brushes.Black;
+        public Brush StatusColor { get; set; } = Brushes.Gray;
+        public Brush AccentColor { get; set; } = new SolidColorBrush(Color.FromRgb(3, 112, 195));
+        public Brush BackgroundColor { get; set; } = Brushes.White;
+        public Brush BorderColor { get; set; } = new SolidColorBrush(Color.FromRgb(220, 220, 220));
 
-            public Brush BorderColor { get; set; } = Brushes.Transparent;
-            public Brush BackgroundColor { get; set; } = Brushes.Transparent;
+        // Icône
+        public string IconKind { get; set; } = "Information";
+        public Brush IconColor { get; set; } = new SolidColorBrush(Color.FromRgb(3, 112, 195));
 
-            // ============================================================
-            //  🧩 Construction à partir d’une entité Modification
-            // ============================================================
-            public static GenericItemViewModel FromModification(Modification mod)
-            {
-                if (mod == null)
-                    throw new ArgumentNullException(nameof(mod));
-
-                var vm = new GenericItemViewModel
-                {
-                    BackgroundColor = Brushes.Transparent,
-                    BorderColor = new SolidColorBrush(Color.FromRgb(150, 180, 200)) // léger gris-bleu
-                };
-
-                // 🎨 Palette pastel
-                Brush blue = new SolidColorBrush(Color.FromRgb(170, 200, 255));
-                Brush green = new SolidColorBrush(Color.FromRgb(180, 240, 200));
-                Brush orange = new SolidColorBrush(Color.FromRgb(255, 220, 170));
-                Brush gray = new SolidColorBrush(Color.FromRgb(180, 180, 180));
-
-                switch (mod.Type)
-                {
-                    case ModificationType.ChangeReturnDate:
-                        vm.Info1 = "🕓 Changement de date";
-                        vm.Info1Foreground = blue;
-
-                        vm.Info2 = $"Réf : {mod.Ref_Modification}";
-                        vm.Info2Foreground = gray;
-
-                        vm.Info3 = $"Ancienne : {mod.OldReturnDate?.ToString("dd/MM/yyyy") ?? "N/A"}";
-                        vm.Info3Foreground = orange;
-
-                        vm.Info4 = $"Nouvelle : {mod.NewReturnDate?.ToString("dd/MM/yyyy") ?? "N/A"}";
-                        vm.Info4Foreground = green;
-                        break;
-
-                    case ModificationType.ReturnLoan:
-                        vm.Info1 = "📘 Retour d’emprunt";
-                        vm.Info1Foreground = green;
-
-                        vm.Info2 = $"Réf : {mod.Ref_Modification}";
-                        vm.Info2Foreground = gray;
-
-                        string subscriber = mod.Loan_?.Subscriber?.Name_User ?? "Abonné inconnu";
-                        string book = mod.Loan_?.Book?.Title ?? "Livre inconnu";
-
-                        vm.Info3 = $"Livre : {book}";
-                        vm.Info3Foreground = orange;
-
-                        vm.Info4 = $"Par : {subscriber}";
-                        vm.Info4Foreground = blue;
-                        break;
-
-                    default:
-                        vm.Info1 = $"Modification : {mod.Type}";
-                        vm.Info1Foreground = gray;
-                        break;
-                }
-
-                return vm;
-        }
-
-        // ============================================================
-        //  🧱 Création directe du contrôle WPF (BasicListItemView)
-        // ============================================================
-        public static BasicListItemView CreateModificationItem(Modification mod)
-        {
-            var vm = FromModification(mod);
-
-            var view = new BasicListItemView
-            {
-                DataContext = vm
-            };
-
-            return view;
-        }
-        // --- Construction à partir d’une entité Loan ---
+        // ============================================
+        // CONSTRUCTION À PARTIR D'UN LOAN
+        // ============================================
         public static GenericItemViewModel FromLoan(Loan loan)
         {
             if (loan == null)
@@ -119,73 +40,196 @@ namespace LIBBRARY_MANAGER.UI.Modules.HomeSpace.Items.BasicListItems.ViewModel
 
             var vm = new GenericItemViewModel
             {
-                BackgroundColor = Brushes.Transparent,
-                BorderColor = new SolidColorBrush(Color.FromRgb(150, 180, 200)) // léger gris-bleu
+                UniqueId = $"LOAN-{loan.LoanId}",
+                Timestamp = loan.BorrowDate,
+                OperationType = "Loan"
             };
 
-            // palettes pastel
-            Brush pastelBlue = new SolidColorBrush(Color.FromRgb(175, 200, 255));
-            Brush pastelGreen = new SolidColorBrush(Color.FromRgb(200, 240, 200));
-            Brush pastelOrange = new SolidColorBrush(Color.FromRgb(255, 230, 180));
-            Brush pastelRed = new SolidColorBrush(Color.FromRgb(255, 200, 200));
-            Brush softGray = new SolidColorBrush(Color.FromRgb(170, 170, 170));
-            Brush neutral = new SolidColorBrush(Color.FromRgb(120, 120, 120));
+            // Couleurs selon l'état
+            Brush activeGreen = new SolidColorBrush(Color.FromRgb(46, 204, 113));
+            Brush warningOrange = new SolidColorBrush(Color.FromRgb(243, 156, 18));
+            Brush errorRed = new SolidColorBrush(Color.FromRgb(231, 76, 60));
+            Brush completedGray = new SolidColorBrush(Color.FromRgb(149, 165, 166));
 
-            // Info mapping (Info1..Info5)
-            // Info1: statut + icône
-            // Info2: référence du prêt
-            // Info3: livre
-            // Info4: abonné
-            // Info5: dates / état / pénalité
-            vm.Info1 = loan.IsActive
-                ? (loan.IsLate ? $"⚠️ En retard ({loan.DaysLate}j)" : "✅ Actif")
-                : "✔️ Terminé";
-            vm.Info1Foreground = loan.IsActive
-                ? (loan.IsLate ? pastelOrange : pastelGreen)
-                : softGray;
+            if (loan.IsActive)
+            {
+                if (loan.IsLate)
+                {
+                    vm.Title = $"⚠️ EMPRUNT EN RETARD";
+                    vm.TitleColor = errorRed;
+                    vm.AccentColor = errorRed;
+                    vm.BorderColor = errorRed;
+                    vm.IconKind = "AlertCircle";
+                    vm.IconColor = errorRed;
+                    vm.StatusInfo = $"En retard de {loan.DaysLate} jour{(loan.DaysLate > 1 ? "s" : "")}";
+                    vm.StatusColor = errorRed;
+                }
+                else
+                {
+                    vm.Title = "📗 EMPRUNT EN COURS";
+                    vm.TitleColor = activeGreen;
+                    vm.AccentColor = activeGreen;
+                    vm.BorderColor = activeGreen;
+                    vm.IconKind = "BookCheck";
+                    vm.IconColor = activeGreen;
 
-            vm.Info2 = $"Réf: {loan.Ref_Loan}";
-            vm.Info2Foreground = neutral;
+                    int daysLeft = (loan.ReturnDate - DateTime.Now).Days;
+                    if (daysLeft <= 3)
+                    {
+                        vm.StatusInfo = $"⏰ À rendre dans {daysLeft} jour{(daysLeft > 1 ? "s" : "")}";
+                        vm.StatusColor = warningOrange;
+                    }
+                    else
+                    {
+                        vm.StatusInfo = $"✓ Retour prévu le {loan.ReturnDate:dd/MM/yyyy}";
+                        vm.StatusColor = activeGreen;
+                    }
+                }
+            }
+            else
+            {
+                vm.Title = "✅ EMPRUNT RETOURNÉ";
+                vm.TitleColor = completedGray;
+                vm.AccentColor = completedGray;
+                vm.BorderColor = completedGray;
+                vm.IconKind = "CheckCircle";
+                vm.IconColor = completedGray;
 
-            vm.Info3 = $"Livre: {loan.Book?.Title ?? "—"}";
-            vm.Info3Foreground = pastelBlue;
+                if (loan.ActualReturnDate.HasValue)
+                {
+                    bool onTime = loan.ActualReturnDate.Value <= loan.ReturnDate;
+                    vm.StatusInfo = onTime
+                        ? "Retourné à temps"
+                        : $"Retourné avec {(loan.ActualReturnDate.Value - loan.ReturnDate).Days}j de retard";
+                    vm.StatusColor = onTime ? activeGreen : warningOrange;
+                }
+            }
 
-            vm.Info4 = $"Abonné: {loan.Subscriber?.Name_User ?? "—"}";
-            vm.Info4Foreground = pastelBlue;
+            // Informations principales
+            vm.Reference = $"Réf: {loan.Ref_Loan}";
+            vm.BookInfo = $"📚 {loan.Book?.Title ?? "Livre inconnu"}";
+            vm.UserInfo = $"👤 {loan.Subscriber?.Name_User ?? "Abonné inconnu"}";
+            vm.DateInfo = $"📅 Emprunté le {loan.BorrowDate:dd/MM/yyyy à HH:mm}";
 
-            // construire Info5: dates et pénalité éventuelle
-            string borrowStr = loan.BorrowDate.ToString("dd/MM/yyyy");
-            string returnStr = loan.ReturnDate.ToString("dd/MM/yyyy");
-            string penaltyStr = (loan.Penalty.HasValue && loan.Penalty.Value > 0)
-                ? $" · Pénalité: {loan.Penalty.Value:C}"
-                : string.Empty;
-
-            vm.Info5 = $"Emprunt: {borrowStr} → Retour: {returnStr}{penaltyStr}";
-            vm.Info5Foreground = loan.IsLate ? pastelRed : neutral;
-
-            // individual backgrounds remain transparent (per request),
-            // but you can give faint highlight for each info if desired:
-            vm.Info1Background = Brushes.Transparent;
-            vm.Info2Background = Brushes.Transparent;
-            vm.Info3Background = Brushes.Transparent;
-            vm.Info4Background = Brushes.Transparent;
-            vm.Info5Background = Brushes.Transparent;
+            // Pénalité si applicable
+            if (loan.Penalty.HasValue && loan.Penalty.Value > 0)
+            {
+                vm.DateInfo += $" • Pénalité: {loan.Penalty.Value:C}";
+            }
 
             return vm;
         }
 
-        // --- Création directe du contrôle WPF (BasicListItemView) pour un Loan ---
+        // ============================================
+        // CONSTRUCTION À PARTIR D'UNE MODIFICATION
+        // ============================================
+        public static GenericItemViewModel FromModification(Modification mod)
+        {
+            if (mod == null)
+                throw new ArgumentNullException(nameof(mod));
+
+            var vm = new GenericItemViewModel
+            {
+                UniqueId = $"MOD-{mod.ModificationId}",
+                Timestamp = mod.ModificationDate,
+                OperationType = "Modification"
+            };
+
+            // Couleurs thématiques
+            Brush blueInfo = new SolidColorBrush(Color.FromRgb(52, 152, 219));
+            Brush greenSuccess = new SolidColorBrush(Color.FromRgb(46, 204, 113));
+            Brush purpleAction = new SolidColorBrush(Color.FromRgb(155, 89, 182));
+
+            switch (mod.Type)
+            {
+                case ModificationType.ChangeReturnDate:
+                    vm.Title = "🔄 CHANGEMENT DE DATE";
+                    vm.TitleColor = blueInfo;
+                    vm.AccentColor = blueInfo;
+                    vm.BorderColor = blueInfo;
+                    vm.IconKind = "CalendarEdit";
+                    vm.IconColor = blueInfo;
+
+                    vm.StatusInfo = "Date de retour modifiée";
+                    vm.StatusColor = blueInfo;
+
+                    if (mod.OldReturnDate.HasValue && mod.NewReturnDate.HasValue)
+                    {
+                        vm.DateInfo = $"📅 {mod.OldReturnDate.Value:dd/MM/yyyy} → {mod.NewReturnDate.Value:dd/MM/yyyy}";
+                    }
+                    break;
+
+                case ModificationType.ReturnLoan:
+                    vm.Title = "✅ RETOUR EFFECTUÉ";
+                    vm.TitleColor = greenSuccess;
+                    vm.AccentColor = greenSuccess;
+                    vm.BorderColor = greenSuccess;
+                    vm.IconKind = "BookArrowLeft";
+                    vm.IconColor = greenSuccess;
+
+                    vm.StatusInfo = "Livre retourné avec succès";
+                    vm.StatusColor = greenSuccess;
+                    vm.DateInfo = $"📅 Le {mod.ModificationDate:dd/MM/yyyy à HH:mm}";
+                    break;
+
+                case ModificationType.CancelLoan:
+                    vm.Title = "❌ ANNULATION D'EMPRUNT";
+                    vm.TitleColor = new SolidColorBrush(Color.FromRgb(231, 76, 60));
+                    vm.AccentColor = vm.TitleColor;
+                    vm.BorderColor = vm.TitleColor;
+                    vm.IconKind = "Cancel";
+                    vm.IconColor = vm.TitleColor;
+
+                    vm.StatusInfo = "Emprunt annulé";
+                    vm.StatusColor = vm.TitleColor;
+                    vm.DateInfo = $"📅 Le {mod.ModificationDate:dd/MM/yyyy à HH:mm}";
+                    break;
+
+                default:
+                    vm.Title = "⚙️ MODIFICATION";
+                    vm.TitleColor = purpleAction;
+                    vm.AccentColor = purpleAction;
+                    vm.BorderColor = purpleAction;
+                    vm.IconKind = "Cog";
+                    vm.IconColor = purpleAction;
+
+                    vm.StatusInfo = mod.Type.ToString();
+                    vm.StatusColor = purpleAction;
+                    vm.DateInfo = $"📅 Le {mod.ModificationDate:dd/MM/yyyy à HH:mm}";
+                    break;
+            }
+
+            vm.Reference = $"Réf: {mod.Ref_Modification}";
+
+            // Informations du prêt associé
+            if (mod.Loan_ != null)
+            {
+                vm.BookInfo = $"📚 {mod.Loan_.Book?.Title ?? "Livre inconnu"}";
+                vm.UserInfo = $"👤 {mod.Loan_.Subscriber?.Name_User ?? "Abonné inconnu"}";
+            }
+
+            // Staff member qui a fait la modification
+            if (mod.StaffMember_ != null)
+            {
+                vm.UserInfo += $" • Par: {mod.StaffMember_.Name_User}";
+            }
+
+            return vm;
+        }
+
+        // ============================================
+        // CRÉATION DES VUES
+        // ============================================
         public static BasicListItemView CreateLoanItem(Loan loan)
         {
             var vm = FromLoan(loan);
-
-            var view = new BasicListItemView
-            {
-                DataContext = vm
-            };
-
-            return view;
+            return new BasicListItemView { DataContext = vm };
         }
 
+        public static BasicListItemView CreateModificationItem(Modification mod)
+        {
+            var vm = FromModification(mod);
+            return new BasicListItemView { DataContext = vm };
+        }
     }
 }

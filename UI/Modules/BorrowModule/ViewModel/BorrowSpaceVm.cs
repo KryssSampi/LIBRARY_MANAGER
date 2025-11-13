@@ -147,7 +147,7 @@ namespace LIBBRARY_MANAGER.UI.Modules.BorrowModule.ViewModel
                     int savedRecords = context.SaveChanges();
 
                     // Générer la référence de l'emprunt après l'insertion
-                    context.GenerateReferences();
+                    context.SaveChangesWithReferences();
 
                     // Vérifier que les changements ont bien été sauvegardés
                     if (savedRecords == 0)

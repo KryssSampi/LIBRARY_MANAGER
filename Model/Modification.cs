@@ -8,7 +8,8 @@ namespace LIBBRARY_MANAGER.Model
     public enum ModificationType
     {
         ChangeReturnDate,
-        ReturnLoan
+        ReturnLoan,
+        CancelLoan
     }
 
     public partial class Modification : ObservableObject

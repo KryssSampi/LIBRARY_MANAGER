@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Library_Manager": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\Kryss-Pc\\SCHOOL\\PROGRAMMATION INFORMATIQUE(2025-2026)\\Programmation Informatique AUT-2025\\Programmation-DEV-API_BUR\\LIBBRARY_MANAGER",
+      "sqlDebugging": true,
+      "nativeDebugging": true,
+      "authenticationMode": "Windows"
+    }
+  }
+}

@@ -23,8 +23,9 @@ namespace LIBBRARY_MANAGER.Data
                 Console.WriteLine("La base contient déjà des données. Initialisation ignorée.");
                 return;
             }
-            try { 
-            Console.WriteLine("Initialisation des données de test...");
+            try
+            {
+                Console.WriteLine("Initialisation des données de test...");
 
                 await CreateTestStaffMembersAsync(context);
                 await CreateTestSubscribersAsync(context);
@@ -32,14 +33,14 @@ namespace LIBBRARY_MANAGER.Data
                 await CreateTestLoansAsync(context);
 
                 Console.WriteLine("✅ Données de test initialisées avec succès!");
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine("⚠️ ERREUR SQLITE : " + ex.InnerException?.Message);
+                Console.WriteLine("Pile d'appel : " + ex);
+                throw new Exception("⚠️ ERREUR SQLITE : " + ex.InnerException?.Message);
+            }
         }
-    catch (DbUpdateException ex)
-    {
-        Console.WriteLine("⚠️ ERREUR SQLITE : " + ex.InnerException?.Message);
-        Console.WriteLine("Pile d'appel : " + ex);
-        throw new Exception("⚠️ ERREUR SQLITE : " + ex.InnerException?.Message);
-    }
-}
 
         // =====================================
         // MÉTHODES ASYNCHRONES
@@ -57,7 +58,8 @@ namespace LIBBRARY_MANAGER.Data
                     Adresse = "123 Rue Wellington, Ottawa, ON K1A 0A9",
                     Poste = "Directeur",
                     YearHired = 2015,
-                    Password = "admin123"
+                    Password = "admin123",
+                     BirthDate = new DateTime(new Random().Next((DateTime.Now.Year-100),(DateTime.Now.Year-12)),new Random().Next(1, 12), new Random().Next(1, 28))
                 },
                 new StaffMember
                 {
@@ -67,7 +69,8 @@ namespace LIBBRARY_MANAGER.Data
                     Adresse = "456 Avenue Bank, Ottawa, ON K1P 5L1",
                     Poste = "Bibliothécaire",
                     YearHired = 2018,
-                    Password = "marie123"
+                    Password = "marie123",
+                BirthDate = new DateTime(new Random().Next((DateTime.Now.Year-100),(DateTime.Now.Year-12)),new Random().Next(1,12),new Random().Next(1,28))
                 },
                 new StaffMember
                 {
@@ -77,7 +80,8 @@ namespace LIBBRARY_MANAGER.Data
                     Adresse = "789 Rue Slater, Ottawa, ON K1R 7X7",
                     Poste = "Technicien",
                     YearHired = 2020,
-                    Password = "jean123"
+                    Password = "jean123",
+ BirthDate = new DateTime(new Random().Next((DateTime.Now.Year-100),(DateTime.Now.Year-12)),new Random().Next(1,12),new Random().Next(1,28))
                 }
             };
 
@@ -98,26 +102,31 @@ namespace LIBBRARY_MANAGER.Data
             var firstNames = new[] { "Sophie", "Thomas", "Julie", "Marc", "Claire", "Pierre", "Anne", "Luc", "Emma", "Alexandre", "Sarah", "Nicolas", "Isabelle", "François", "Catherine" };
             var lastNames = new[] { "Martin", "Bernard", "Dubois", "Thomas", "Robert", "Richard", "Petit", "Durand", "Leroy", "Moreau", "Simon", "Laurent", "Lefebvre", "Michel", "Garcia" };
 
-            var subscribers = Enumerable.Range(0, 30).Select(i =>
+            for (int i = 0; i < 50; i++)
             {
                 var first = firstNames[random.Next(firstNames.Length)];
                 var last = lastNames[random.Next(lastNames.Length)];
-                return new Subscriber
+
+                var subscriber = new Subscriber
                 {
                     Name_User = $"{first} {last}",
                     Adresse_Mail = $"{first.ToLower()}.{last.ToLower()}{i}@email.ca",
                     Num_Telephone = $"613-555-{1000 + i:D4}",
                     Adresse = $"{100 + i * 10} Rue {last}, Ottawa, ON",
                     Fidelity = (decimal)(2 + random.NextDouble() * 6),
-                    Password = $"{first.ToLower()}123"
+                    Password = $"{first.ToLower()}123",
+                    BirthDate = new DateTime(new Random().Next((DateTime.Now.Year - 100), (DateTime.Now.Year - 12)), new Random().Next(1, 13), new Random().Next(1, 28))
+
                 };
-            }).ToList();
 
-            await context.Subscribers.AddRangeAsync(subscribers);
-            await context.SaveChangesAsync();
-            context.GenerateReferences();
+                await context.Subscribers.AddAsync(subscriber);
+                await context.SaveChangesWithReferencesAsync(); // ✅ Un par un
 
-            Console.WriteLine($"✓ {subscribers.Count} abonnés créés");
+                // Petit délai pour garantir l'unicité du timestamp
+                await Task.Delay(10); // 10ms entre chaque création
+            }
+
+            Console.WriteLine($"✓ 30 abonnés créés");
         }
 
         private static async Task CreateTestBooksAsync(LibraryDbContext context)
@@ -1833,7 +1842,7 @@ namespace LIBBRARY_MANAGER.Data
             var loansCreated = 0;
 
             // ✅ EMPRUNTS ACTIFS (25)
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 35; i++)
             {
                 var book = books[random.Next(books.Count)];
                 var subscriber = subscribers[random.Next(subscribers.Count)];
@@ -1896,7 +1905,7 @@ namespace LIBBRARY_MANAGER.Data
             }
 
             // ✅ EMPRUNTS PASSÉS (20)
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 25; i++)
             {
                 var book = books[random.Next(books.Count)];
                 var subscriber = subscribers[random.Next(subscribers.Count)];

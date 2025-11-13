@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,6 +39,9 @@ namespace LIBBRARY_MANAGER.Data
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("Users");
+                // ✅ CORRECTION: Laisser EF générer les IDs automatiquement
+                entity.Property(e => e.Id_User)
+                    .ValueGeneratedOnAdd(); // Au lieu de ValueGeneratedNever()
                 entity.HasIndex(e => e.Adresse_Mail).IsUnique();
                 entity.Property(e => e.Date_Creation).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
@@ -119,6 +123,16 @@ namespace LIBBRARY_MANAGER.Data
             });
         }
 
+        // ✅ MÉTHODE AJOUTÉE pour StaffMember.cs
+        public void GenerateReferences()
+        {
+            GenerateReferencesForNewEntities();
+            if (ChangeTracker.HasChanges())
+            {
+                base.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Sauvegarde avec génération automatique des références
         /// </summary>
@@ -184,27 +198,6 @@ namespace LIBBRARY_MANAGER.Data
             }
         }
 
-        /// <summary>
-        /// Méthode obsolète - utiliser SaveChangesWithReferences() à la place
-        /// </summary>
-        [Obsolete("Utiliser SaveChangesWithReferences() à la place")]
-        public void GenerateReferences()
-        {
-            GenerateReferencesForNewEntities();
-            if (ChangeTracker.HasChanges())
-            {
-                base.SaveChanges();
-            }
-        }
-
-        public override int SaveChanges()
-        {
-            return base.SaveChanges();
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await base.SaveChangesAsync(cancellationToken);
-        }
+       
     }
 }

@@ -212,7 +212,7 @@ namespace LIBBRARY_MANAGER.Views.BookViews
                 if (saved > 0)
                 {
                     // Générer la référence
-                    context.GenerateReferences();
+                    context.SaveChangesWithReferences();
 
                     // Message de succès
                     ShowSuccess(

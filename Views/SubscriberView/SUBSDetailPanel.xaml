@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items"
+             xmlns:items="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items" xmlns:model="clr-namespace:LIBBRARY_MANAGER.Model" xmlns:subscribersviewmodel="clr-namespace:LIBBRARY_MANAGER.ViewModel.SubscribersViewModel" d:DataContext="{d:DesignInstance Type=subscribersviewmodel:SubscriberItemViewModel}"
              mc:Ignorable="d" 
              x:Name="root"
              Background="White">
@@ -152,7 +152,7 @@
                                            Grid.Column="0"
                                            FontWeight="SemiBold"
                                            Foreground="#757575"/>
-                                <TextBlock Text="{Binding BirthDate, StringFormat='{}{0:dd MMM yyyy}'}"
+                                <TextBlock Text="{Binding SubscriberInstance.BirthDate, StringFormat='{}{0:dd MMM yyyy}'}"
                                            Grid.Column="1"
                                            Foreground="#212121"/>
                             </Grid>
@@ -172,7 +172,7 @@
                                            Grid.Column="0"
                                            FontWeight="SemiBold"
                                            Foreground="#757575"/>
-                                <TextBlock Text="{Binding Age}"
+                                <TextBlock Text="{Binding SubscriberInstance.Age}"
                                            Grid.Column="1"
                                            Foreground="#212121"/>
                             </Grid>

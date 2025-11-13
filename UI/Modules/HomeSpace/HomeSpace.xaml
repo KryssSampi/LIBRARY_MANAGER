@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:LIBBRARY_MANAGER.UI.Modules.HomeSpace"
              xmlns:MainItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items.MainView"
              xmlns:GlobalItems="clr-namespace:LIBBRARY_MANAGER.UI.Common.Items" 
-             xmlns:vm="clr-namespace:LIBBRARY_MANAGER.UI.Modules.HomeSpace.ViewModel"
+             xmlns:vm="clr-namespace:LIBBRARY_MANAGER.UI.Modules.HomeSpace.ViewModel" xmlns:views="clr-namespace:LIBBRARY_MANAGER.UI.Modules.HomeSpace.Items.BasicListItems.Views" xmlns:localItems="clr-namespace:LIBBRARY_MANAGER.UI.Modules.HomeSpace.Items.OperationView"
              mc:Ignorable="d" 
              x:Name="root"
              d:Background="White"
@@ -144,8 +144,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0.65*"/>
-            <RowDefinition Height="0.35*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <!-- En-tête -->
@@ -214,23 +214,209 @@
     
 
         <!-- Affichage des opérations -->
-        <UniformGrid Grid.Row="3" Columns="1" x:Name="OperationsGrid"  Visibility="{Binding Operations,ElementName= root , Converter={StaticResource NullTovisiblityReverseConverter}}">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Ici s'affiche vos opérations du jour :"
-            FontWeight="Bold"
-            FontStyle="Italic"
-            FontSize="20"
-            Foreground="#80000000"
-            FontFamily="Arimo Hebrew Subset Italic"
-            TextAlignment="Center"/>
-                <TextBlock Text="(Vous n'avez pas fait d'opération aujourd'hui)"
-            FontWeight="Bold"
-            FontStyle="Italic"
-            FontSize="20"
-            Foreground="#4D000000"
-            FontFamily="Arimo Hebrew Subset Italic"
-            TextAlignment="Center"/>
-            </StackPanel>
-        </UniformGrid>
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- En-tête avec statistiques -->
+            <Border Grid.Row="0" 
+            Background="#F5F8FA"
+            BorderBrush="#E1E8ED"
+            BorderThickness="0,1,0,1"
+            Padding="15,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <TextBlock Text="📊" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Mes opérations du jour" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource DarkBlue}"
+                           VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Compteurs -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <!-- Badge Emprunts -->
+                        <Border Background="#2ECC71"
+                        CornerRadius="12"
+                        Padding="12,4">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📗"
+                                   FontSize="14"
+                                   Margin="0,0,6,0"/>
+                                <TextBlock Text="{Binding OperationsVM.LoansCount, FallbackValue=0}"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="0,0,4,0"/>
+                                <TextBlock Text="emprunt(s)"
+                                   FontSize="12"
+                                   Foreground="White"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Badge Modifications -->
+                        <Border Background="#3498DB"
+                        CornerRadius="12"
+                        Padding="12,4"
+                        Margin="8,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔄"
+                                   FontSize="14"
+                                   Margin="0,0,6,0"/>
+                                <TextBlock Text="{Binding OperationsVM.ModificationsCount, FallbackValue=0}"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="0,0,4,0"/>
+                                <TextBlock Text="modification(s)"
+                                   FontSize="12"
+                                   Foreground="White"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- TabControl avec 2 onglets -->
+            <TabControl Grid.Row="1"
+                Background="White"
+                BorderThickness="0">
+
+                <TabControl.Resources>
+                    <!-- Style des onglets -->
+                    <Style TargetType="TabItem">
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="20,10"/>
+                        <Setter Property="Foreground" Value="#666"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border x:Name="Border"
+                                    Background="Transparent"
+                                    BorderThickness="0,0,0,3"
+                                    BorderBrush="Transparent"
+                                    Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter ContentSource="Header"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PrimaryBlue}"/>
+                                            <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#F0F4F8"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+
+                <!-- ============================================
+             ONGLET 1 : EMPRUNTS DU JOUR
+             ============================================ -->
+                <TabItem Header="📗 Emprunts du jour">
+                    <Grid>
+                        <!-- Liste des emprunts -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="10"
+                                      Style="{StaticResource ModernScrollViewer}"
+                              Visibility="{Binding OperationsVM.LoansCount, 
+                                           Converter={StaticResource CountToVisibilityConverter}}">
+                            <ItemsControl ItemsSource="{Binding OperationsVM.TodayLoans}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <localItems:OperationItemView Margin="0,0,0,8" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <!-- Message si vide -->
+                        <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding OperationsVM.LoansCount, 
+                                         Converter={StaticResource InverseCountToVisibilityConverter}}">
+                            <TextBlock Text="📋"
+                               FontSize="64"
+                               HorizontalAlignment="Center"
+                               Opacity="0.3"
+                               Margin="0,0,0,20"/>
+                            <TextBlock Text="Aucun emprunt aujourd'hui"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="#999"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8"/>
+                            <TextBlock Text="Les emprunts créés aujourd'hui apparaîtront ici"
+                               FontSize="14"
+                               FontStyle="Italic"
+                               Foreground="#BBB"
+                               HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+
+                <!-- ============================================
+             ONGLET 2 : MODIFICATIONS DU JOUR
+             ============================================ -->
+                <TabItem Header="🔄 Mes modifications">
+                    <Grid>
+                        <!-- Liste des modifications -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="10"
+                                      Style="{StaticResource ModernScrollViewer}"
+                              Visibility="{Binding OperationsVM.ModificationsCount, 
+                                           Converter={StaticResource CountToVisibilityConverter}}">
+                            <ItemsControl ItemsSource="{Binding OperationsVM.TodayModifications}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <localItems:OperationItemView Margin="0,0,0,8"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <!-- Message si vide -->
+                        <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding OperationsVM.ModificationsCount, 
+                                         Converter={StaticResource InverseCountToVisibilityConverter}}">
+                            <TextBlock Text="🔧"
+                               FontSize="64"
+                               HorizontalAlignment="Center"
+                               Opacity="0.3"
+                               Margin="0,0,0,20"/>
+                            <TextBlock Text="Aucune modification aujourd'hui"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="#999"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8"/>
+                            <TextBlock Text="Vos retours et prolongations apparaîtront ici"
+                               FontSize="14"
+                               FontStyle="Italic"
+                               Foreground="#BBB"
+                               HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </UserControl>

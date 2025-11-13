@@ -129,7 +129,13 @@ namespace LIBBRARY_MANAGER.UI.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? Visibility.Collapsed : Visibility.Visible;
+            if( value is int)
+            {
+                int x = (int)value;
+                return x == 0 ? Visibility.Collapsed : Visibility.Visible;
+            }
+            return value == null  ? Visibility.Collapsed : Visibility.Visible;
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -253,6 +259,11 @@ namespace LIBBRARY_MANAGER.UI.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is int)
+            {
+                int x = (int)value;
+                return x == 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
             return value == null ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -261,5 +272,46 @@ namespace LIBBRARY_MANAGER.UI.Common.Converters
             throw new NotImplementedException();
         }
     }
+
+    /// <summary>
+    /// Convertit un nombre > 0 en Visible, sinon Collapsed
+    /// </summary>
+    public class CountToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int count)
+            {
+                return count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Convertit un nombre == 0 en Visible, sinon Collapsed (inverse)
+    /// </summary>
+    public class InverseCountToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int count)
+            {
+                return count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 
 }

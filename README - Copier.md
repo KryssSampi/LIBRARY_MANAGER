@@ -834,7 +834,7 @@ Ce projet est sous licence **MIT** - voir le fichier [LICENSE.txt](LICENSE.txt) 
 ## Contact et Support
 
 - **Email** : [lien](SampiKryss@gmail.com)
-- **GitHub** : [Lien](https://github.com/kryss/noctua-library-manager)
+- **GitHub** : [Lien](https://github.com/kryssSampi/library-manager)
 - **Documentation** : Chaque module possède un README que je vous invire à Regarder
 
 ---

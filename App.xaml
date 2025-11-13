@@ -22,6 +22,8 @@
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
             <converters:ValidationVisibilityConverter x:Key="ValidationVisibilityConverter"/>
             <converters:NullToVisibilityReverseConverter x:Key="NullTovisiblityReverseConverter"/>
+            <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+            <converters:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter"/>
         </ResourceDictionary>
         
     </Application.Resources>

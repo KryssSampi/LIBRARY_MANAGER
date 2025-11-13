@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace LIBBRARY_MANAGER.UI.Modules.HomeSpace.ViewModel
 {
-     partial class HomeViewModel : ObservableObject
+     public partial class HomeViewModel : ObservableObject
     {
 
         // 🧩 Commandes observables

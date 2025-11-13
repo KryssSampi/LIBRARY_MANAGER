@@ -6,11 +6,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Noctua_On_Book.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Data\Library_Manager.db" />
+    <None Remove="Data\Library_Manager.db-shm" />
+    <None Remove="Data\Library_Manager.db-wal" />
     <None Remove="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Noctua_On_Book.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +33,7 @@
     <Folder Include="UI\Modules\BorrowModule\Views\" />
     <Folder Include="UI\Modules\HomeSpace\Core\" />
     <Folder Include="UI\Modules\HomeSpace\Assets\" />
+    <Folder Include="UI\Modules\HomeSpace\Items\OperationView\View\" />
     <Folder Include="UI\Modules\HomeSpace\Views\" />
     <Folder Include="UI\Modules\LoanCatalog\VIews\" />
     <Folder Include="UI\Modules\Navbar\Core\" />

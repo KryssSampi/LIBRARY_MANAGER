@@ -7,103 +7,100 @@
              mc:Ignorable="d" 
              Background="Transparent"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <QuadraticEase x:Key="SmoothEasing" EasingMode="EaseInOut"/>
-    </UserControl.Resources>
     <Button Background="Transparent"
-            BorderThickness="0"
-            Padding="10,5"
-            Cursor="Hand">
+        BorderThickness="0"
+        Padding="10,5"
+        Cursor="Hand">
 
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="border"
-                        Background="{Binding BackgroundColor}"
-                        BorderBrush="{Binding BorderColor}"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="8"
-                        SnapsToDevicePixels="True">
+        <Button.Template>
+            <ControlTemplate TargetType="Button">
+                <Border x:Name="border"
+                    Background="{Binding BackgroundColor}"
+                    BorderBrush="{Binding BorderColor}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="8"
+                    SnapsToDevicePixels="True">
 
-                        <Grid RenderTransformOrigin="0.5,0.5">
-                            <Grid.RenderTransform>
-                                <ScaleTransform x:Name="scale" ScaleX="1" ScaleY="1"/>
-                            </Grid.RenderTransform>
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="scale" ScaleX="1" ScaleY="1"/>
+                        </Grid.RenderTransform>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="1.5*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="1.5*"/>
-                            </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
 
-                            <!-- Bloc 1 -->
-                            <Border Background="{Binding Info1Background}" 
-                                CornerRadius="6" 
-                                Padding="6,3" 
-                                Margin="3">
-                                <TextBlock Text="{Binding Info1}" 
-                                       Foreground="{Binding Info1Foreground}"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"
-                                       VerticalAlignment="Center"
-                                       TextTrimming="CharacterEllipsis"/>
-                            </Border>
+                        <!-- Bloc 1 -->
+                        <Border Background="{Binding Info1Background}" 
+                            CornerRadius="6" 
+                            Padding="6,3" 
+                            Margin="3">
+                            <TextBlock Text="{Binding Info1}" 
+                                   Foreground="{Binding Info1Foreground}"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"/>
+                        </Border>
 
-                            <!-- Bloc 2 -->
-                            <Border Grid.Column="1" 
-                                Background="{Binding Info2Background}"
-                                CornerRadius="6" 
-                                Padding="6,3" 
-                                Margin="3">
-                                <TextBlock Text="{Binding Info2}" 
-                                       Foreground="{Binding Info2Foreground}"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"
-                                       VerticalAlignment="Center"
-                                       TextTrimming="CharacterEllipsis"/>
-                            </Border>
+                        <!-- Bloc 2 -->
+                        <Border Grid.Column="1" 
+                            Background="{Binding Info2Background}"
+                            CornerRadius="6" 
+                            Padding="6,3" 
+                            Margin="3">
+                            <TextBlock Text="{Binding Info2}" 
+                                   Foreground="{Binding Info2Foreground}"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"/>
+                        </Border>
 
-                            <!-- Bloc 3 -->
-                            <Border Grid.Column="2" 
-                                Background="{Binding Info3Background}"
-                                CornerRadius="6" 
-                                Padding="6,3" 
-                                Margin="3">
-                                <TextBlock Text="{Binding Info3}" 
-                                       Foreground="{Binding Info3Foreground}"
-                                       FontSize="13"
-                                       TextTrimming="CharacterEllipsis"/>
-                            </Border>
+                        <!-- Bloc 3 -->
+                        <Border Grid.Column="2" 
+                            Background="{Binding Info3Background}"
+                            CornerRadius="6" 
+                            Padding="6,3" 
+                            Margin="3">
+                            <TextBlock Text="{Binding Info3}" 
+                                   Foreground="{Binding Info3Foreground}"
+                                   FontSize="13"
+                                   TextTrimming="CharacterEllipsis"/>
+                        </Border>
 
-                            <!-- Bloc 4 -->
-                            <Border Grid.Column="3" 
-                                Background="{Binding Info4Background}"
-                                CornerRadius="6" 
-                                Padding="6,3" 
-                                Margin="3">
-                                <TextBlock Text="{Binding Info4}" 
-                                       Foreground="{Binding Info4Foreground}"
-                                       FontSize="13"
-                                       TextTrimming="CharacterEllipsis"/>
-                            </Border>
+                        <!-- Bloc 4 -->
+                        <Border Grid.Column="3" 
+                            Background="{Binding Info4Background}"
+                            CornerRadius="6" 
+                            Padding="6,3" 
+                            Margin="3">
+                            <TextBlock Text="{Binding Info4}" 
+                                   Foreground="{Binding Info4Foreground}"
+                                   FontSize="13"
+                                   TextTrimming="CharacterEllipsis"/>
+                        </Border>
 
-                            <!-- Bloc 5 -->
-                            <Border Grid.Column="4" 
-                                Background="{Binding Info5Background}"
-                                CornerRadius="6" 
-                                Padding="6,3" 
-                                Margin="3">
-                                <TextBlock Text="{Binding Info5}" 
-                                       Foreground="{Binding Info5Foreground}"
-                                       FontSize="13"
-                                       TextTrimming="CharacterEllipsis"/>
-                            </Border>
-                        </Grid>
-                    </Border>
+                        <!-- Bloc 5 -->
+                        <Border Grid.Column="4" 
+                            Background="{Binding Info5Background}"
+                            CornerRadius="6" 
+                            Padding="6,3" 
+                            Margin="3">
+                            <TextBlock Text="{Binding Info5}" 
+                                   Foreground="{Binding Info5Foreground}"
+                                   FontSize="13"
+                                   TextTrimming="CharacterEllipsis"/>
+                        </Border>
+                    </Grid>
+                </Border>
 
-                    <!-- Animations -->
+                <!-- Animations -->
                 <ControlTemplate.Triggers>
 
                     <!-- 🎨 Animation Hover -->
@@ -111,54 +108,50 @@
                         <Trigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <!-- Animation de zoom -->
+                                    <!-- Zoom -->
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleX"
-                                     To="1.07"
-                                     Duration="0:0:0.2"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1.07"
+                                                 Duration="0:0:0.2"/>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleY"
-                                     To="1.07"
-                                     Duration="0:0:0.2"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1.07"
+                                                 Duration="0:0:0.2"/>
 
-                                    <!-- Transition douce de couleur -->
+                                    <!-- Couleur -->
                                     <ColorAnimation Storyboard.TargetName="border"
-                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#E6F0FF"
-                                    Duration="0:0:0.3"/>
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#E6F0FF"
+                                                Duration="0:0:0.3"/>
                                     <ColorAnimation Storyboard.TargetName="border"
-                                    Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                    To="#025492"
-                                    Duration="0:0:0.3"/>
+                                                Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                To="#025492"
+                                                Duration="0:0:0.3"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </Trigger.EnterActions>
 
-                        <!-- Retour à la normale -->
+                        <!-- Retour -->
                         <Trigger.ExitActions>
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleX"
-                                     To="1"
-                                     Duration="0:0:0.2"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1"
+                                                 Duration="0:0:0.2"/>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleY"
-                                     To="1"
-                                     Duration="0:0:0.2"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1"
+                                                 Duration="0:0:0.2"/>
 
                                     <ColorAnimation Storyboard.TargetName="border"
-                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#FFFFFFFF"
-                                    Duration="0:0:0.3"/>
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#FFFFFFFF"
+                                                Duration="0:0:0.3"/>
                                     <ColorAnimation Storyboard.TargetName="border"
-                                    Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                    To="#6B8E7F"
-                                    Duration="0:0:0.3"/>
+                                                Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                To="#6B8E7F"
+                                                Duration="0:0:0.3"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </Trigger.ExitActions>
@@ -170,20 +163,18 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleX"
-                                     To="0.95"
-                                     Duration="0:0:0.1"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="0.95"
+                                                 Duration="0:0:0.1"/>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleY"
-                                     To="0.95"
-                                     Duration="0:0:0.1"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="0.95"
+                                                 Duration="0:0:0.1"/>
 
                                     <ColorAnimation Storyboard.TargetName="border"
-                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#CFE0FF"
-                                    Duration="0:0:0.2"/>
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#CFE0FF"
+                                                Duration="0:0:0.2"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </Trigger.EnterActions>
@@ -192,29 +183,26 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleX"
-                                     To="1"
-                                     Duration="0:0:0.2"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1"
+                                                 Duration="0:0:0.2"/>
                                     <DoubleAnimation Storyboard.TargetName="scale"
-                                     Storyboard.TargetProperty="ScaleY"
-                                     To="1"
-                                     Duration="0:0:0.2"
-                                     EasingFunction="{StaticResource SmoothEasing}"/>
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1"
+                                                 Duration="0:0:0.2"/>
 
                                     <ColorAnimation Storyboard.TargetName="border"
-                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#FFFFFFFF"
-                                    Duration="0:0:0.3"/>
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#FFFFFFFF"
+                                                Duration="0:0:0.3"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </Trigger.ExitActions>
                     </Trigger>
 
                 </ControlTemplate.Triggers>
-
             </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </UserControl>
+        </Button.Template>
+    </Button>
+</UserControl>
 
