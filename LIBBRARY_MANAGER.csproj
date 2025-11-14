@@ -13,7 +13,6 @@
     <None Remove="Data\Library_Manager.db" />
     <None Remove="Data\Library_Manager.db-shm" />
     <None Remove="Data\Library_Manager.db-wal" />
-    <None Remove="README.md" />
   </ItemGroup>
 
   <ItemGroup>
