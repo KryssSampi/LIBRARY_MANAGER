@@ -31,6 +31,7 @@ namespace LIBBRARY_MANAGER.Data
                 await CreateTestSubscribersAsync(context);
                 await CreateTestBooksAsync(context);
                 await CreateTestLoansAsync(context);
+                await CreateTestEventsAsync(context);
 
                 Console.WriteLine("✅ Données de test initialisées avec succès!");
             }
@@ -45,6 +46,52 @@ namespace LIBBRARY_MANAGER.Data
         // =====================================
         // MÉTHODES ASYNCHRONES
         // =====================================
+
+        private static async Task CreateTestEventsAsync(LibraryDbContext context)
+        {
+            if (await context.Events.AnyAsync())
+            {
+                Console.WriteLine("La table Events contient déjà des données. Ignoré.");
+                return;
+            }
+
+            var events = new[]
+            {
+        new Event
+        {
+            Title = "Soirée Jeux de Société",
+            Description = "Un événement pour découvrir de nouveaux jeux et rencontrer d'autres passionnés.",
+            StartDate = DateTime.Now.AddDays(2),
+            EndDate = DateTime.Now.AddDays(2).AddHours(3)
+        },
+        new Event
+        {
+            Title = "Atelier Lecture Jeunesse",
+            Description = "Atelier destiné aux enfants de 5 à 10 ans.",
+            StartDate = DateTime.Now.AddDays(5).AddHours(10),
+            EndDate = DateTime.Now.AddDays(5).AddHours(12)
+        },
+        new Event
+        {
+            Title = "Conférence d'un Auteur Invité",
+            Description = "L'auteur célèbre Jean Tremblay viendra parler de son dernier roman.",
+            StartDate = DateTime.Now.AddDays(8).AddHours(18),
+            EndDate = DateTime.Now.AddDays(8).AddHours(20)
+        },
+        new Event
+        {
+            Title = "Café-Lecture du Vendredi",
+            Description = "Discussion sur le livre du mois.",
+            StartDate = DateTime.Now.AddDays(12).AddHours(17),
+            EndDate = DateTime.Now.AddDays(12).AddHours(19)
+        }
+    };
+
+            await context.Events.AddRangeAsync(events);
+            await context.SaveChangesAsync();
+
+            Console.WriteLine($"✓ {events.Length} événements créés");
+        }
 
         private static async Task CreateTestStaffMembersAsync(LibraryDbContext context)
         {

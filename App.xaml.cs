@@ -34,7 +34,7 @@ namespace LIBBRARY_MANAGER
                 Console.WriteLine("✅ Base de données initialisée");
 
                 // Initialiser les données de test si la base est vide
-               await TestDataInitializer.InitializeTestDataAsync(LibraryDbContext);
+                await TestDataInitializer.InitializeTestDataAsync(LibraryDbContext);
 
                 // S'assurer qu'un utilisateur de test existe
                 EnsureTestUser();

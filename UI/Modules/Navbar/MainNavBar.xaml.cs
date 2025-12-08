@@ -45,7 +45,8 @@ namespace LIBBRARY_MANAGER.UI.Modules.Navbar
                 new NavItem { Id = "Members", Label = "Liste des Abonnés", IconKind = PackIconMaterialKind.AccountGroup },
                 new NavItem { Id = "BorrowManager", Label = "Gestionnaire des emprunts", IconKind = PackIconMaterialKind.BookCog },
                 new NavItem { Id = "Borrow", Label = "Faire un Emprunt", IconKind = PackIconMaterialKind.BookArrowRight },
-                new NavItem { Id = "Return", Label = "Retourner un Livre", IconKind = PackIconMaterialKind.BookArrowLeftOutline }
+                new NavItem { Id = "Return", Label = "Retourner un Livre", IconKind = PackIconMaterialKind.BookArrowLeftOutline },
+                new NavItem { Id = "Events", Label = "Événements", IconKind = PackIconMaterialKind.Calendar }
             };
 
             AccountManagerItem = new NavItem
@@ -179,6 +180,14 @@ namespace LIBBRARY_MANAGER.UI.Modules.Navbar
         public static readonly DependencyProperty LogoutCommandProperty =
             DependencyProperty.Register(nameof(LogoutCommand), typeof(ICommand), typeof(ResponsiveNavBar));
 
+        public ICommand EventsCommand
+        {
+            get => (ICommand)GetValue(EventsCommandProperty);
+            set => SetValue(EventsCommandProperty, value);
+        }
+        public static readonly DependencyProperty EventsCommandProperty =
+            DependencyProperty.Register(nameof(EventsCommand), typeof(ICommand), typeof(ResponsiveNavBar));
+
         #endregion
 
         #region Event Handlers
@@ -299,6 +308,7 @@ namespace LIBBRARY_MANAGER.UI.Modules.Navbar
                 "Return" => ReturnCommand,
                 "Account" => AccountManagerCommand,
                 "Logout" => LogoutCommand,
+                "Events" => EventsCommand,
                 _ => null
             };
 

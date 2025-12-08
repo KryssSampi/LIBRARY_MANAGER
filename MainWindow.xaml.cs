@@ -21,6 +21,7 @@ using LIBBRARY_MANAGER.UI.Modules.LoanCatalog;
 using LIBBRARY_MANAGER.UI.Modules.ReturnModule;
 using LIBBRARY_MANAGER.UI.Modules.ReturnModule.ViewModel;
 using LIBBRARY_MANAGER.UI.Modules.SubscriberCatalog;
+using LIBBRARY_MANAGER.UI.Modules.EventCatalog;
 using static LIBBRARY_MANAGER.UI.Modules.Navbar.ResponsiveNavBar;
 
 namespace LIBBRARY_MANAGER
@@ -37,6 +38,7 @@ namespace LIBBRARY_MANAGER
         HomeSpace Homepage;
         BorrowSpace Faire_Emprunt;
         ReturnSpace Faire_Retour;
+        EventMainView EventManager;
 
         private bool IsExtended = false;
 
@@ -55,6 +57,7 @@ namespace LIBBRARY_MANAGER
             Catalogue = new BookCatalog();
             Gestionnaire_Demprunts = new LoanCatalog();
             Gestionnaire_DAbonnee = new SubscriberCatalog();
+            EventManager = new EventMainView();
 
         }
 
@@ -93,6 +96,7 @@ namespace LIBBRARY_MANAGER
                 SwitchContent(Faire_Retour);
             });
             MainNavbar.LogoutCommand = new RelayCommand(_ => LogOut());
+            MainNavbar.EventsCommand = new RelayCommand(_ => SwitchContent(EventManager));
 
             if (Homepage.DataContext is HomeViewModel home)
             {

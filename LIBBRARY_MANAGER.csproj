@@ -13,6 +13,8 @@
     <None Remove="Data\Library_Manager.db" />
     <None Remove="Data\Library_Manager.db-shm" />
     <None Remove="Data\Library_Manager.db-wal" />
+    <None Remove="UI\Modules\EventCatalog\Assets\Images\Noctua_Blue.png" />
+    <None Remove="UI\Modules\EventCatalog\Assets\Images\Noctua_On_Book.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +61,15 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="UI\Modules\EventCatalog\Assets\Images\Noctua_Blue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\Modules\EventCatalog\Assets\Images\Noctua_On_Book.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

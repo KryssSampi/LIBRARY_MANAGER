@@ -17,6 +17,8 @@ namespace LIBBRARY_MANAGER.Data
         public DbSet<Loan> Loans { get; set; } = null!;
         public DbSet<Modification> Modifications { get; set; } = null!;
 
+        public DbSet<Event> Events { get; set; } = null!;
+
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
         {
         }
@@ -120,6 +122,18 @@ namespace LIBBRARY_MANAGER.Data
                     .WithMany(l => l.Modifications)
                     .HasForeignKey(m => m.LoanId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // ========== Configuration Event ==========
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.ToTable("Events");
+                entity.Property(e => e.EventId).ValueGeneratedOnAdd();
+                entity.Property(e => e.Title).HasMaxLength(150).IsRequired();
+                entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.StartDate).IsRequired();
+                entity.Property(e => e.EndDate).IsRequired();
+                entity.Property(e => e.DateAdded).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
         }
 
